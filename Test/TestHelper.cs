@@ -14,6 +14,7 @@ namespace together_aspcore.Test
         {
             var options = new DbContextOptionsBuilder<TogetherDbContext>()
                 .UseInMemoryDatabase(databaseName: dbName)
+                .EnableSensitiveDataLogging()
                 .Options;
             var context = new TogetherDbContext(options);
             return context;

@@ -22,9 +22,9 @@ namespace together_aspcore.App.Member
             return newMember.Entity;
         }
 
-        public Task<List<Member>> GetAll()
+        public async Task<List<Member>> GetAll()
         {
-            return _dbContext.Members.ToListAsync();
+            return await _dbContext.Members.Where(x => !x.Archived).ToListAsync();
         }
     }
 }

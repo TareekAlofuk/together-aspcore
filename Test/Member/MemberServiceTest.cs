@@ -1,9 +1,5 @@
-using System.IO;
+using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using together_aspcore.App.Member;
 using Xunit;
@@ -25,6 +21,24 @@ namespace together_aspcore.Test.Member
 
             Assert.Equal(member.Id, newMember.Id);
             Assert.Equal(member.Name, newMember.Name);
+        }
+
+        [Fact]
+        public async Task ShouldReturnAllMembers()
+        {
+            var members = new List<App.Member.Member>
+            {
+                new App.Member.Member {Name = "Ali", Id = 1}, new App.Member.Member {Name = "Mustafa", Id = 2}
+            };
+
+            var memberRepositoryMock = new Mock<IMemberRepository>();
+            memberRepositoryMock.Setup(x => x.GetAll())
+                .ReturnsAsync(members);
+
+            var service = new MemberService(memberRepositoryMock.Object);
+
+            var allMembers = await service.GetAllMembers();
+            Assert.Equal(2, allMembers.Count);
         }
     }
 }
