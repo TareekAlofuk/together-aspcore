@@ -8,7 +8,7 @@ using together_aspcore.Config;
 
 namespace together_aspcore.Test
 {
-    public class TestHelper
+    public static class TestHelper
     {
         public static TogetherDbContext GetInMemoryDbContext(String dbName = "db")
         {

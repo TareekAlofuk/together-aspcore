@@ -8,7 +8,7 @@ namespace together_aspcore.Test.Member
 {
     public class MemberRepositoryTest
     {
-        private MemberRepository _memberRepository;
+        private readonly MemberRepository _memberRepository;
 
         public MemberRepositoryTest()
         {
@@ -23,5 +23,7 @@ namespace together_aspcore.Test.Member
             Assert.Equal(name, member.Name);
             Assert.True(member.Id > 0);
         }
+        
+        
     }
 }
