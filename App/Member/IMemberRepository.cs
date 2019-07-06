@@ -1,9 +1,12 @@
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
 namespace together_aspcore.App.Member
 {
     public interface IMemberRepository
     {
-        Member Create();
+        Task<Member> Create(Member member);
+        Task<List<Member>> GetAll();
     }
 }

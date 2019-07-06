@@ -24,7 +24,7 @@ namespace together_aspcore.Test.Config
             var count = _togetherDbContext.Members.Count();
             Assert.Equal(0, count);
 
-            var member = new Member {Name = "Test"};
+            var member = new App.Member.Member {Name = "Test"};
             _togetherDbContext.Members.Add(member);
             _togetherDbContext.SaveChanges();
 

@@ -1,19 +1,30 @@
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using together_aspcore.Config;
 
 namespace together_aspcore.App.Member
 {
     public class MemberRepository : IMemberRepository
     {
-        private DbContext _dbContext;
+        private readonly TogetherDbContext _dbContext;
 
-        public MemberRepository(DbContext dbContext)
+        public MemberRepository(TogetherDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public Member Create()
+        public async Task<Member> Create(Member member)
         {
-            return new Member();
+            var newMember = await _dbContext.Members.AddAsync(member);
+            await _dbContext.SaveChangesAsync();
+            return newMember.Entity;
+        }
+
+        public Task<List<Member>> GetAll()
+        {
+            return _dbContext.Members.ToListAsync();
         }
     }
 }

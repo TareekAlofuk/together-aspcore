@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using together_aspcore.App.Member;
 using together_aspcore.Config;
 
 namespace together_aspcore
@@ -27,8 +28,13 @@ namespace together_aspcore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContextPool<TogetherDbContext>(
+            services.AddDbContext<TogetherDbContext>(
                 options => options.UseNpgsql(Configuration["ConnectionString"]));
+
+
+            services.AddTransient<IMemberRepository, MemberRepository>();
+            services.AddTransient<IMemberService, MemberService>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
