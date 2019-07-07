@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using together_aspcore.Config;
+using together_aspcore.Shared;
 
 namespace together_aspcore.Test
 {

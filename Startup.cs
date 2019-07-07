@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using together_aspcore.App.Member;
-using together_aspcore.Config;
+using together_aspcore.Shared;
 
 namespace together_aspcore
 {
@@ -31,9 +31,8 @@ namespace together_aspcore
             services.AddDbContext<TogetherDbContext>(
                 options => options.UseNpgsql(Configuration["ConnectionString"]));
 
-
-            services.AddTransient<IMemberRepository, MemberRepository>();
-            services.AddTransient<IMemberService, MemberService>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<IMemberService, MemberService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }

@@ -21,5 +21,10 @@ namespace together_aspcore.App.Member
         {
             return await _memberRepository.GetAll();
         }
+
+        public async Task<Member> EditExistingMember(Member member)
+        {
+            return await _memberRepository.Edit(member);
+        }
     }
 }

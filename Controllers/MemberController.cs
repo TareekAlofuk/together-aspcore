@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using together_aspcore.App.Member;
+using together_aspcore.Shared;
 
 namespace together_aspcore.Controllers
 {
@@ -28,6 +29,18 @@ namespace together_aspcore.Controllers
         {
             var newMember = await _memberService.CreateNewMember(member);
             return Ok(newMember);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Member>> EditExistingMember(int id, Member member)
+        {
+            if (member.Id != id)
+            {
+                return BadRequest(BadRequestResponse.Create(MemberErrorMessage.CANNOT_CHANGE_ID));
+            }
+
+            var editedMember = await _memberService.EditExistingMember(member);
+            return Ok(editedMember);
         }
     }
 }

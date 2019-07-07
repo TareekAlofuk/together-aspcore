@@ -1,7 +1,7 @@
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using together_aspcore.App.Member;
-using together_aspcore.Config;
+using together_aspcore.Shared;
 using Xunit;
 
 namespace together_aspcore.Test.Config

@@ -7,5 +7,6 @@ namespace together_aspcore.App.Member
     {
         Task<Member> CreateNewMember(Member member);
         Task<List<Member>> GetAllMembers();
+        Task<Member> EditExistingMember(Member member);
     }
 }
