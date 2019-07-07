@@ -1,8 +1,7 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using together_aspcore.Config;
+using together_aspcore.Shared;
 
 namespace together_aspcore.App.Member
 {

@@ -12,7 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using together_aspcore.App.Member;
-using together_aspcore.Config;
+using together_aspcore.Shared;
 
 namespace together_aspcore
 {

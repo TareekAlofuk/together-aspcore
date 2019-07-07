@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using together_aspcore.App.Member;
 using together_aspcore.Controllers;
+using together_aspcore.Shared;
 using Xunit;
 
 namespace together_aspcore.Test.Member
@@ -63,7 +64,9 @@ namespace together_aspcore.Test.Member
 
             var result = r.Result as BadRequestObjectResult;
             Assert.NotNull(result);
-            var error = result.Value is MemberErrorMessage value ? value : 0;
+            var badRequestResponse = result.Value as BadRequestResponse;
+            Assert.NotNull(badRequestResponse);
+            var error = badRequestResponse.ErrorCode is MemberErrorMessage value ? value : 0;
             Assert.Equal(MemberErrorMessage.CANNOT_CHANGE_ID, error);
         }
     }

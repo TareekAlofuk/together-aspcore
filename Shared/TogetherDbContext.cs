@@ -1,9 +1,7 @@
-using System;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using together_aspcore.App.Member;
 
-namespace together_aspcore.Config
+namespace together_aspcore.Shared
 {
     public class TogetherDbContext : DbContext
     {

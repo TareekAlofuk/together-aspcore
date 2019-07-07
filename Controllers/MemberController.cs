@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using together_aspcore.App.Member;
+using together_aspcore.Shared;
 
 namespace together_aspcore.Controllers
 {
@@ -30,12 +31,12 @@ namespace together_aspcore.Controllers
             return Ok(newMember);
         }
 
-        [HttpPut]
-        public async Task<ActionResult<Member>> EditExistingMember([FromRoute(Name = "id")] int id, Member member)
+        [HttpPut("{id}")]
+        public async Task<ActionResult<Member>> EditExistingMember(int id, Member member)
         {
             if (member.Id != id)
             {
-                return BadRequest(MemberErrorMessage.CANNOT_CHANGE_ID);
+                return BadRequest(BadRequestResponse.Create(MemberErrorMessage.CANNOT_CHANGE_ID));
             }
 
             var editedMember = await _memberService.EditExistingMember(member);
