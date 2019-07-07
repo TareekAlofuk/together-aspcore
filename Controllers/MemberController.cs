@@ -29,5 +29,11 @@ namespace together_aspcore.Controllers
             var newMember = await _memberService.CreateNewMember(member);
             return Ok(newMember);
         }
+
+        public async Task<ActionResult<Member>> EditExistingMember(Member member)
+        {
+            var editedMember = await _memberService.EditExistingMember(member);
+            return Ok(editedMember);
+        }
     }
 }

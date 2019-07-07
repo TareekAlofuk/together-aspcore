@@ -1,7 +1,5 @@
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using together_aspcore.App.Member;
-using together_aspcore.Config;
 using Xunit;
 
 namespace together_aspcore.Test.Member
@@ -23,7 +21,21 @@ namespace together_aspcore.Test.Member
             Assert.Equal(name, member.Name);
             Assert.True(member.Id > 0);
         }
-        
-        
+
+        [Fact]
+        public async Task ShouldEditMember()
+        {
+            var context = TestHelper.GetInMemoryDbContext(nameof(ShouldEditMember));
+            var memberRepository = new MemberRepository(context);
+            var testMember = await memberRepository.Create(new App.Member.Member {Name = "Ali"});
+
+            testMember.Name = "EditedName";
+            testMember.Phone = "TestPhone";
+
+            var editedMember = await memberRepository.Edit(testMember);
+
+            Assert.Equal("EditedName", editedMember.Name);
+            Assert.Equal("TestPhone", editedMember.Phone);
+        }
     }
 }

@@ -26,5 +26,12 @@ namespace together_aspcore.App.Member
         {
             return _dbContext.Members.ToListAsync();
         }
+
+        public async Task<Member> Edit(Member member)
+        {
+            var editedMember = _dbContext.Members.Update(member);
+            await _dbContext.SaveChangesAsync();
+            return editedMember.Entity;
+        }
     }
 }

@@ -31,9 +31,8 @@ namespace together_aspcore
             services.AddDbContext<TogetherDbContext>(
                 options => options.UseNpgsql(Configuration["ConnectionString"]));
 
-
-            services.AddTransient<IMemberRepository, MemberRepository>();
-            services.AddTransient<IMemberService, MemberService>();
+            services.AddScoped<IMemberRepository, MemberRepository>();
+            services.AddScoped<IMemberService, MemberService>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
