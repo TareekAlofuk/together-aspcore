@@ -30,8 +30,14 @@ namespace together_aspcore.Controllers
             return Ok(newMember);
         }
 
-        public async Task<ActionResult<Member>> EditExistingMember(Member member)
+        [HttpPut]
+        public async Task<ActionResult<Member>> EditExistingMember([FromRoute(Name = "id")] int id, Member member)
         {
+            if (member.Id != id)
+            {
+                return BadRequest(MemberErrorMessage.CANNOT_CHANGE_ID);
+            }
+
             var editedMember = await _memberService.EditExistingMember(member);
             return Ok(editedMember);
         }
