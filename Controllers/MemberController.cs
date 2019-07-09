@@ -31,6 +31,13 @@ namespace together_aspcore.Controllers
             return Ok(newMember);
         }
 
+
+        [HttpPost("upload-passport")]
+        public ActionResult UploadPassportImage()
+        {
+            return Ok();
+        }
+
         [HttpPut("{id}")]
         public async Task<ActionResult<Member>> EditExistingMember(int id, Member member)
         {
