@@ -48,7 +48,7 @@ namespace together_aspcore.App.Member
             return await _memberRepository.EditCredential(credential);
         }
 
-        public async Task<File> SaveFile(int id ,IFormFile formFile)
+        public async Task<File> SaveFile(int id, IFormFile formFile)
         {
             if (formFile != null)
             {
@@ -58,21 +58,38 @@ namespace together_aspcore.App.Member
                 string filePath = Path.Combine(rootPath, fileName);
                 await formFile.CopyToAsync(new FileStream(filePath, FileMode.Create));
 
-                
+
                 if (System.IO.File.Exists(filePath))
                 {
                     File file = new File
                     {
                         Path = fileName,
-                        
+
                     };
 
-                    await _memberRepository.SaveFile( id,file);
+                    await _memberRepository.SaveFile(id, file);
                     return file;
                 }
 
             }
             return null;
+
+        }
+
+        public async Task<Member> GetMemberInfo(int id)
+        {
+
+            return await _memberRepository.GetMemberInfo(id);
+        }
+
+        public async Task<Member> Archived(int id, bool archived)
+        {
+            return await _memberRepository.Archived(id, archived);
+        }
+
+        public async Task<Member> Disabled(int id, bool disabled)
+        {
+            return await _memberRepository.Disabled(id, disabled);
 
         }
     }

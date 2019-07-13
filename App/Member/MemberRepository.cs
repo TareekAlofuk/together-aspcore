@@ -63,5 +63,41 @@ namespace together_aspcore.App.Member
             }
             return null;
         }
+
+        public async Task<Member> GetMemberInfo(int id)
+        {
+            Member member = await _dbContext.Members.FindAsync(id);
+            if (member != null)
+            {
+                return member;
+
+            }
+            return null;
+
+        }
+
+
+
+        public async Task<Member> Archived(int id, bool archived)
+        {
+            Member member = await _dbContext.Members.FindAsync(id);
+            if (member != null)
+            {
+                member.Archived = archived;
+                _dbContext.SaveChanges();
+            }
+            return null;
+        }
+
+        public async Task<Member> Disabled(int id, bool disabled)
+        {
+            Member member = await _dbContext.Members.FindAsync(id);
+            if (member != null)
+            {
+                member.Disabled = disabled;
+                _dbContext.SaveChanges();
+            }
+            return null;
+        }
     }
 }
