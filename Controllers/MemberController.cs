@@ -1,6 +1,6 @@
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using together_aspcore.App.Member;
 using together_aspcore.Shared;
@@ -21,15 +21,22 @@ namespace together_aspcore.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Member>>> AllMembers()
         {
-            var members = await _memberService.GetAllMembers();
+            List<Member> members = await _memberService.GetAllMembers();
             return Ok(members);
         }
 
         [HttpPost]
         public async Task<ActionResult<Member>> CreateMember([FromForm] Member member)
         {
-            var newMember = await _memberService.CreateNewMember(member);
+            Member newMember = await _memberService.CreateNewMember(member);
             return Ok(newMember);
+        }
+
+
+        [HttpPost("upload-passport")]
+        public ActionResult UploadPassportImage()
+        {
+            return Ok();
         }
 
         [HttpPut("{id}")]
@@ -40,10 +47,79 @@ namespace together_aspcore.Controllers
             return Ok(editedMember);
         }
 
-        [HttpPost("credentials")]
-        public ActionResult SaveMemberCredentials()
+
+        [HttpPost("{id}/credentials")]
+        public async Task<ActionResult<Member>> SaveCredentials(int id, [FromForm] MemberCredentials memberCredentials)
         {
-            return Ok();
+            if (memberCredentials.MemberId != id)
+            {
+                return BadRequest(BadRequestResponse.Create(MemberErrorMessage.DATA_IS_NOT_VALID));
+            }
+
+            var newCredential = await _memberService.SaveCredentials(memberCredentials);
+            return Ok(newCredential);
+        }
+
+        [HttpPut]
+        public async Task<ActionResult<MemberFile>> SetFile(int id, IFormFile formFile)
+        {
+            // check the input id Member to prevent spoofing(check input id with logined id)
+
+            MemberFile memberFile = await _memberService.SaveFile(id, formFile);
+            return Ok(memberFile);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Member>> GetMemberInfo(int id)
+        {
+            return await _memberService.GetMemberInfo(id);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Member>> Disable(int id)
+        {
+            return await _memberService.Disabled(id, true);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Member>> Enable(int id)
+        {
+            return await _memberService.Disabled(id, false);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Member>> Archive(int id)
+        {
+            return await _memberService.Archived(id, true);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Member>> UnArchive(int id)
+        {
+            return await _memberService.Archived(id, false);
+        }
+
+
+        [HttpGet("{number}")]
+        public async Task<ActionResult<List<Member>>> GetRecentlyadded(int number)
+        {
+            return await _memberService.GetRecentlyadded(number);
+        }
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Member>> GetById(int id)
+        {
+            return await _memberService.GetById(id);
+        }
+
+
+        [HttpGet("{name}")]
+        public async Task<ActionResult<List<Member>>> GetByName(string name)
+        {
+            return await _memberService.GetByName(name);
         }
     }
 }

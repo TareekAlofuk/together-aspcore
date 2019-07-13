@@ -48,6 +48,43 @@ namespace together_aspcore.Migrations
 
                     b.ToTable("Members");
                 });
+
+            modelBuilder.Entity("together_aspcore.App.Member.MemberCredentials", b =>
+                {
+                    b.Property<int>("MemberId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Password");
+
+                    b.HasKey("MemberId");
+
+                    b.ToTable("MembersCredentials");
+                });
+
+            modelBuilder.Entity("together_aspcore.App.Member.MemberFile", b =>
+                {
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("MemberId");
+
+                    b.Property<string>("Path");
+
+                    b.HasKey("Code");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("together_aspcore.App.Member.MemberFile", b =>
+                {
+                    b.HasOne("together_aspcore.App.Member.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId");
+                });
 #pragma warning restore 612, 618
         }
     }

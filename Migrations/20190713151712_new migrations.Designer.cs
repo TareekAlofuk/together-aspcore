@@ -10,8 +10,8 @@ using together_aspcore.Shared;
 namespace together_aspcore.Migrations
 {
     [DbContext(typeof(TogetherDbContext))]
-    [Migration("20190709174012_change datetime to nullable in member table")]
-    partial class changedatetimetonullableinmembertable
+    [Migration("20190713151712_new migrations")]
+    partial class newmigrations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,43 @@ namespace together_aspcore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Members");
+                });
+
+            modelBuilder.Entity("together_aspcore.App.Member.MemberCredentials", b =>
+                {
+                    b.Property<int>("MemberId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("Password");
+
+                    b.HasKey("MemberId");
+
+                    b.ToTable("MembersCredentials");
+                });
+
+            modelBuilder.Entity("together_aspcore.App.Member.MemberFile", b =>
+                {
+                    b.Property<int>("Code")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int?>("MemberId");
+
+                    b.Property<string>("Path");
+
+                    b.HasKey("Code");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("Files");
+                });
+
+            modelBuilder.Entity("together_aspcore.App.Member.MemberFile", b =>
+                {
+                    b.HasOne("together_aspcore.App.Member.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId");
                 });
 #pragma warning restore 612, 618
         }

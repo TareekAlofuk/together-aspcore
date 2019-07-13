@@ -2,6 +2,7 @@ namespace together_aspcore.App.Member
 {
     public enum MemberErrorMessage
     {
-        CANNOT_CHANGE_ID = 1,
+        DATA_IS_NOT_VALID = 101,
+        CANNOT_CHANGE_ID = 102,
     }
 }
