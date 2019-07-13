@@ -13,7 +13,7 @@ namespace together_aspcore.App.Member
         Task<MemberFile> CreateMemberAttachment(MemberFile memberFile);
         Task<Member> GetMemberInfo(int id);
         Task<Member> Archived(int id, bool archived);
-        Task<Member> Disabled(int id, bool disabled);
+        Task<bool> ChangeDisableStatus(int memberId, bool disable);
         Task<List<Member>> GetRecentlyAdded(int number);
         Task<Member> GetById(int id);
         Task<List<Member>> GetByName(string name);

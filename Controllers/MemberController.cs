@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using together_aspcore.App.Member;
 using together_aspcore.Shared;
+using together_aspcore.Shared.Response;
 
 namespace together_aspcore.Controllers
 {
@@ -78,17 +79,20 @@ namespace together_aspcore.Controllers
         }
 
 
-        [HttpGet("{id}/x")]
-        public async Task<ActionResult<Member>> Disable(int id)
+        [HttpPut("{id}/disable")]
+        public async Task<ActionResult<SuccessfulStatusResponse>> Disable(int id)
         {
-            return await _memberService.Disabled(id, true);
+            var success = await _memberService.ChangeDisableStatus(id, true);
+            return Ok(new SuccessfulStatusResponse {Success = success});
         }
 
-        [HttpGet("{id}/y")]
+        [HttpPut("{id}/enable")]
         public async Task<ActionResult<Member>> Enable(int id)
         {
-            return await _memberService.Disabled(id, false);
+            var success = await _memberService.ChangeDisableStatus(id, false);
+            return Ok(new SuccessfulStatusResponse {Success = success});
         }
+
 
         [HttpGet("{id}/d")]
         public async Task<ActionResult<Member>> Archive(int id)

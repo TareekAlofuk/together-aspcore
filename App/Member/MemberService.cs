@@ -76,15 +76,16 @@ namespace together_aspcore.App.Member
             return await _memberRepository.GetMemberInfo(id);
         }
 
+        public async Task<bool> ChangeDisableStatus(int id, bool disable)
+        {
+            return await _memberRepository.ChangeDisableStatus(id, disable);
+        }
+
         public async Task<Member> Archived(int id, bool archived)
         {
             return await _memberRepository.Archived(id, archived);
         }
 
-        public async Task<Member> Disabled(int id, bool disabled)
-        {
-            return await _memberRepository.Disabled(id, disabled);
-        }
 
         public async Task<List<Member>> GetRecentlyadded(int number)
         {

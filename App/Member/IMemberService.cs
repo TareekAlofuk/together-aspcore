@@ -13,7 +13,7 @@ namespace together_aspcore.App.Member
         Task<MemberFile> StoreMemberAttachment(int memberId, string displayFileName, IFormFile file);
         Task<Member> GetMemberInfo(int id);
         Task<Member> Archived(int id, bool archived);
-        Task<Member> Disabled(int id, bool disabled);
+        Task<bool> ChangeDisableStatus(int id, bool disabled);
         Task<List<Member>> GetRecentlyadded(int number);
         Task<Member> GetById(int id);
         Task<List<Member>> GetByName(string name);

@@ -78,16 +78,14 @@ namespace together_aspcore.App.Member
             return null;
         }
 
-        public async Task<Member> Disabled(int id, bool disabled)
+        public async Task<bool> ChangeDisableStatus(int memberId, bool disable)
         {
-            Member member = await _dbContext.Members.FindAsync(id);
-            if (member != null)
-            {
-                member.Disabled = disabled;
-                _dbContext.SaveChanges();
-            }
-
-            return null;
+            var member = await _dbContext.Members.FirstOrDefaultAsync(x => x.Id == memberId);
+            if (member == null) return false;
+            member.Disabled = disable;
+            _dbContext.Members.Update(member);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
 
         public Task<List<Member>> GetRecentlyAdded(int number)
