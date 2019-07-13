@@ -70,7 +70,7 @@ namespace together_aspcore.Controllers
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<ActionResult<Member>> GetMemberInfo(int id)
         {
             var member = await _memberService.GetMemberInfo(id);
@@ -107,10 +107,12 @@ namespace together_aspcore.Controllers
         }
 
 
-        [HttpGet("{number}/x")]
-        public async Task<ActionResult<List<Member>>> GetRecentlyadded(int number)
+        [HttpGet("recent")]
+        public async Task<ActionResult<List<Member>>> GetRecentlyAdded()
         {
-            return await _memberService.GetRecentlyadded(number);
+            // todo : remove hard coded limit
+            const int limit = 50;
+            return await _memberService.GetRecentlyAdded(limit);
         }
 
 

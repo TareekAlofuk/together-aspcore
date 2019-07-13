@@ -87,14 +87,9 @@ namespace together_aspcore.App.Member
         }
 
 
-        public async Task<List<Member>> GetRecentlyadded(int number)
+        public async Task<List<Member>> GetRecentlyAdded(int limit)
         {
-            if (number > 0)
-            {
-                return await _memberRepository.GetRecentlyAdded(number);
-            }
-
-            return null;
+            return await _memberRepository.GetRecentlyAdded(limit);
         }
 
         public async Task<Member> GetById(int id)

@@ -88,18 +88,9 @@ namespace together_aspcore.App.Member
             return true;
         }
 
-        public Task<List<Member>> GetRecentlyAdded(int number)
+        public async Task<List<Member>> GetRecentlyAdded(int limit)
         {
-            try
-            {
-                IQueryable<Member> members = _dbContext.Members.TakeLast(number);
-                return members.ToListAsync<Member>();
-            }
-            catch
-            {
-            }
-
-            return null;
+            return await _dbContext.Members.OrderByDescending(x => x.Id).Take(limit).ToListAsync();
         }
 
         public async Task<Member> GetById(int id)
