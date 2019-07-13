@@ -9,7 +9,6 @@ namespace together_aspcore.App.Member
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { set; get; }
-
         public string Name { set; get; }
         public string Phone { set; get; }
         public string Phone2 { set; get; }

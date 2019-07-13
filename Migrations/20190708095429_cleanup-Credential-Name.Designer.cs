@@ -10,8 +10,8 @@ using together_aspcore.Shared;
 namespace together_aspcore.Migrations
 {
     [DbContext(typeof(TogetherDbContext))]
-    [Migration("20190706140403_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20190708095429_cleanup-Credential-Name")]
+    partial class cleanupCredentialName
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,24 @@ namespace together_aspcore.Migrations
                 .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn)
                 .HasAnnotation("ProductVersion", "2.2.4-servicing-10062")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
+
+            modelBuilder.Entity("together_aspcore.App.Member.Credential", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Email");
+
+                    b.Property<int?>("MemberId");
+
+                    b.Property<string>("Password");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MemberId");
+
+                    b.ToTable("Credentials");
+                });
 
             modelBuilder.Entity("together_aspcore.App.Member.Member", b =>
                 {
@@ -49,6 +67,13 @@ namespace together_aspcore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Members");
+                });
+
+            modelBuilder.Entity("together_aspcore.App.Member.Credential", b =>
+                {
+                    b.HasOne("together_aspcore.App.Member.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId");
                 });
 #pragma warning restore 612, 618
         }

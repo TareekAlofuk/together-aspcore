@@ -4,7 +4,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace together_aspcore.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class TogetherDB : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -29,10 +29,39 @@ namespace together_aspcore.Migrations
                 {
                     table.PrimaryKey("PK_Members", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Credentials",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    Email = table.Column<string>(nullable: true),
+                    Password = table.Column<string>(nullable: true),
+                    MyMemberId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Credentials", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Credentials_Members_MyMemberId",
+                        column: x => x.MyMemberId,
+                        principalTable: "Members",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Credentials_MyMemberId",
+                table: "Credentials",
+                column: "MyMemberId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "Credentials");
+
             migrationBuilder.DropTable(
                 name: "Members");
         }

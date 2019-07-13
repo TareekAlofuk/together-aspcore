@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using together_aspcore.Shared;
@@ -9,9 +10,10 @@ using together_aspcore.Shared;
 namespace together_aspcore.Migrations
 {
     [DbContext(typeof(TogetherDbContext))]
-    partial class TogetherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190708095013_TogetherDB")]
+    partial class TogetherDB
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,31 +28,15 @@ namespace together_aspcore.Migrations
 
                     b.Property<string>("Email");
 
-                    b.Property<int?>("MemberId");
+                    b.Property<int?>("MyMemberId");
 
                     b.Property<string>("Password");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MemberId");
+                    b.HasIndex("MyMemberId");
 
                     b.ToTable("Credentials");
-                });
-
-            modelBuilder.Entity("together_aspcore.App.Member.File", b =>
-                {
-                    b.Property<int>("Code")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int?>("MemberId");
-
-                    b.Property<string>("Path");
-
-                    b.HasKey("Code");
-
-                    b.HasIndex("MemberId");
-
-                    b.ToTable("Files");
                 });
 
             modelBuilder.Entity("together_aspcore.App.Member.Member", b =>
@@ -85,16 +71,9 @@ namespace together_aspcore.Migrations
 
             modelBuilder.Entity("together_aspcore.App.Member.Credential", b =>
                 {
-                    b.HasOne("together_aspcore.App.Member.Member", "Member")
+                    b.HasOne("together_aspcore.App.Member.Member", "MyMember")
                         .WithMany()
-                        .HasForeignKey("MemberId");
-                });
-
-            modelBuilder.Entity("together_aspcore.App.Member.File", b =>
-                {
-                    b.HasOne("together_aspcore.App.Member.Member", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberId");
+                        .HasForeignKey("MyMemberId");
                 });
 #pragma warning restore 612, 618
         }
