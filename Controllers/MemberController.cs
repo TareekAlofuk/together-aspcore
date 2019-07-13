@@ -94,16 +94,18 @@ namespace together_aspcore.Controllers
         }
 
 
-        [HttpGet("{id}/d")]
+        [HttpPut("{id}/archive")]
         public async Task<ActionResult<Member>> Archive(int id)
         {
-            return await _memberService.Archived(id, true);
+            var success = await _memberService.ChangeArchiveStatus(id, true);
+            return Ok(new SuccessfulStatusResponse {Success = success});
         }
 
-        [HttpGet("{id}/f")]
+        [HttpPut("{id}/unarchive")]
         public async Task<ActionResult<Member>> UnArchive(int id)
         {
-            return await _memberService.Archived(id, false);
+            var success = await _memberService.ChangeArchiveStatus(id, false);
+            return Ok(new SuccessfulStatusResponse {Success = success});
         }
 
 

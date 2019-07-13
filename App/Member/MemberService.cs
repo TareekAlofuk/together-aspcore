@@ -81,9 +81,9 @@ namespace together_aspcore.App.Member
             return await _memberRepository.ChangeDisableStatus(id, disable);
         }
 
-        public async Task<Member> Archived(int id, bool archived)
+        public async Task<bool> ChangeArchiveStatus(int id, bool archive)
         {
-            return await _memberRepository.Archived(id, archived);
+            return await _memberRepository.ChangeArchiveStatus(id, archive);
         }
 
 
