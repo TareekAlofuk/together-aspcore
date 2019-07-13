@@ -61,13 +61,8 @@ namespace together_aspcore.App.Member
 
         public async Task<Member> GetMemberInfo(int id)
         {
-            Member member = await _dbContext.Members.FindAsync(id);
-            if (member != null)
-            {
-                return member;
-            }
-
-            return null;
+            var member = await _dbContext.Members.FindAsync(id);
+            return member;
         }
 
 

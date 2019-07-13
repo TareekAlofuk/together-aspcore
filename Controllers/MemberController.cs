@@ -61,9 +61,10 @@ namespace together_aspcore.Controllers
         }
 
         [HttpPost("{id}/upload-attachment")]
-        public async Task<ActionResult<MemberFile>> UploadAttachment(int id, [FromForm] MemberFile fileInfo , IFormFile file)
+        public async Task<ActionResult<MemberFile>> UploadAttachment(int id, [FromForm] MemberFile fileInfo,
+            IFormFile file)
         {
-            var memberFile = await _memberService.StoreMemberAttachment(id, fileInfo.DisplayFileName , file);
+            var memberFile = await _memberService.StoreMemberAttachment(id, fileInfo.DisplayFileName, file);
             return Ok(memberFile);
         }
 
@@ -71,50 +72,52 @@ namespace together_aspcore.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Member>> GetMemberInfo(int id)
         {
-            return await _memberService.GetMemberInfo(id);
+            var member = await _memberService.GetMemberInfo(id);
+            if (member == null) return NotFound();
+            return member;
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/x")]
         public async Task<ActionResult<Member>> Disable(int id)
         {
             return await _memberService.Disabled(id, true);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/y")]
         public async Task<ActionResult<Member>> Enable(int id)
         {
             return await _memberService.Disabled(id, false);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/d")]
         public async Task<ActionResult<Member>> Archive(int id)
         {
             return await _memberService.Archived(id, true);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/f")]
         public async Task<ActionResult<Member>> UnArchive(int id)
         {
             return await _memberService.Archived(id, false);
         }
 
 
-        [HttpGet("{number}")]
+        [HttpGet("{number}/x")]
         public async Task<ActionResult<List<Member>>> GetRecentlyadded(int number)
         {
             return await _memberService.GetRecentlyadded(number);
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}/s")]
         public async Task<ActionResult<Member>> GetById(int id)
         {
             return await _memberService.GetById(id);
         }
 
 
-        [HttpGet("{name}")]
+        [HttpGet("{name}/f")]
         public async Task<ActionResult<List<Member>>> GetByName(string name)
         {
             return await _memberService.GetByName(name);
