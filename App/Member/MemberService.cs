@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using together_aspcore.Shared;
 
@@ -92,24 +93,15 @@ namespace together_aspcore.App.Member
             return await _memberRepository.GetRecentlyAdded(limit);
         }
 
-        public async Task<Member> GetById(int id)
+        public async Task<List<Member>> FindMembers(string query)
         {
-            if (id > 0)
+            var isNumber = query.All(char.IsNumber);
+            if (isNumber)
             {
-                return await _memberRepository.GetById(id);
+                return await _memberRepository.FindMembersById(int.Parse(query));
             }
 
-            return null;
-        }
-
-        public async Task<List<Member>> GetByName(string name)
-        {
-            if (!string.IsNullOrWhiteSpace(name))
-            {
-                return await _memberRepository.GetByName(name);
-            }
-
-            return null;
+            return await _memberRepository.FindMembersByName(query);
         }
     }
 }

@@ -15,7 +15,8 @@ namespace together_aspcore.App.Member
         Task<bool> ChangeArchiveStatus(int id, bool archive);
         Task<bool> ChangeDisableStatus(int id, bool disabled);
         Task<List<Member>> GetRecentlyAdded(int limit);
-        Task<Member> GetById(int id);
-        Task<List<Member>> GetByName(string name);
+
+
+        Task<List<Member>> FindMembers(string query);
     }
 }

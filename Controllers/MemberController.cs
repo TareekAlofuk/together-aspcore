@@ -118,17 +118,10 @@ namespace together_aspcore.Controllers
         }
 
 
-        [HttpGet("{id}/s")]
-        public async Task<ActionResult<Member>> GetById(int id)
+        [HttpGet("search")]
+        public async Task<ActionResult<List<Member>>> SearchEmployees([FromQuery]string query)
         {
-            return await _memberService.GetById(id);
-        }
-
-
-        [HttpGet("{name}/f")]
-        public async Task<ActionResult<List<Member>>> GetByName(string name)
-        {
-            return await _memberService.GetByName(name);
+            return await _memberService.FindMembers(query);
         }
     }
 }

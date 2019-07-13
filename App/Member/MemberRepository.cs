@@ -91,38 +91,17 @@ namespace together_aspcore.App.Member
             return await _dbContext.Members.OrderByDescending(x => x.Id).Take(limit).ToListAsync();
         }
 
-        public async Task<Member> GetById(int id)
+        public async Task<List<Member>> FindMembersById(int id)
         {
-            try
-            {
-                Task<Member> member = _dbContext.Members.FindAsync(id);
-                if (member != null)
-                {
-                    return await member;
-                }
-            }
-            catch
-            {
-            }
-
-            return null;
+            return await _dbContext.Members.Where(x => x.Id == id).ToListAsync();
         }
 
-        public async Task<List<Member>> GetByName(string name)
+        public async Task<List<Member>> FindMembersByName(string name)
         {
-            try
-            {
-                IQueryable<Member> member = _dbContext.Members.Where(itm => itm.Name.Contains(name));
-                if (member != null)
-                {
-                    return await member.ToListAsync();
-                }
-            }
-            catch
-            {
-            }
-
-            return null;
+            name = "%" + name + "%";
+            return await _dbContext.Members
+                .Where(x => EF.Functions.Like(x.Name, name))
+                .ToListAsync();
         }
     }
 }
