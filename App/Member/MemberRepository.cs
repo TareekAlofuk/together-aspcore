@@ -99,5 +99,20 @@ namespace together_aspcore.App.Member
             }
             return null;
         }
+
+        public Task<List<Member>> GetRecentlyadded(int number)
+        {
+           
+                try
+                {
+                    IQueryable<Member> members = _dbContext.Members.TakeLast(number);
+                    return members.ToListAsync<Member>();
+                }
+                catch
+                {
+                }
+
+           
+        }
     }
 }

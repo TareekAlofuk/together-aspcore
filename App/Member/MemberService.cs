@@ -92,5 +92,14 @@ namespace together_aspcore.App.Member
             return await _memberRepository.Disabled(id, disabled);
 
         }
+
+        public async Task<List<Member>> GetRecentlyadded(int number)
+        {
+            if (number > 0)
+            {
+                return await _memberRepository.GetRecentlyadded(number);
+            }
+            return null;
+        }
     }
 }

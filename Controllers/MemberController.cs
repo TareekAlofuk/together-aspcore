@@ -81,23 +81,28 @@ namespace together_aspcore.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Member>> Disable(int id)
         {
-            return await _memberService.Disabled(id , true);
+            return await _memberService.Disabled(id, true);
         }
-         [HttpGet("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Member>> Enable(int id)
         {
-            return await _memberService.Disabled(id , false);
+            return await _memberService.Disabled(id, false);
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<Member>> Archive(int id)
         {
-            return await _memberService.Archived(id , true);
+            return await _memberService.Archived(id, true);
         }
-         [HttpGet("{id}")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<Member>> UnArchive(int id)
         {
-            return await _memberService.Archived(id , false);
+            return await _memberService.Archived(id, false);
+        }
+        [HttpGet("{number}")]
+        public async Task<ActionResult<List<Member>>> GetRecentlyadded(int number)
+        {
+            return await _memberService.GetRecentlyadded(number);
         }
 
 
