@@ -101,5 +101,23 @@ namespace together_aspcore.App.Member
             }
             return null;
         }
+
+        public async Task<Member> GetById(int id)
+        {
+            if (id > 0)
+            {
+                return await _memberRepository.GetById(id);
+            }
+            return null;
+        }
+
+        public async Task<List<Member>> GetByName(string name)
+        {
+            if (!string.IsNullOrWhiteSpace(name))
+            {
+                return await _memberRepository.GetByName(name);
+            }
+            return null;
+        }
     }
 }

@@ -99,12 +99,29 @@ namespace together_aspcore.Controllers
         {
             return await _memberService.Archived(id, false);
         }
+
+
         [HttpGet("{number}")]
         public async Task<ActionResult<List<Member>>> GetRecentlyadded(int number)
         {
             return await _memberService.GetRecentlyadded(number);
         }
 
+
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Member>> GetById(int id)
+        {
+            return await _memberService.GetById(id);
+        }
+
+
+
+        [HttpGet("{name}")]
+        public async Task<ActionResult<List<Member>>> GetByName(string name)
+        {
+            return await _memberService.GetByName(name);
+        }
 
 
 
