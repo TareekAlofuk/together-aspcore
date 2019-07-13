@@ -34,6 +34,7 @@ namespace together_aspcore
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IMemberService, MemberService>();
 
+            services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
@@ -49,6 +50,13 @@ namespace together_aspcore
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowCredentials());
+
 
             app.UseHttpsRedirection();
             app.UseMvc();

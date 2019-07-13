@@ -15,7 +15,7 @@ namespace together_aspcore.App.Member
         public string Phone2 { set; get; }
         public string Email { set; get; }
         public string Address { set; get; }
-        public DateTime BirthDate { set; get; }
+        public DateTime? BirthDate { set; get; }
         public bool Disabled { set; get; }
         public bool Archived { set; get; }
         public string PassportImage { set; get; }
