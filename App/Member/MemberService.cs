@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Hosting.Internal;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -49,22 +48,26 @@ namespace together_aspcore.App.Member
 //            return await _memberRepository.EditCredential(memberCredentials);
 //        }
 
-        public async Task<MemberFile> SaveFile(int id, IFormFile formFile)
+        public async Task<MemberFile> StoreMemberAttachment(int memberId, string displayFileName, IFormFile formFile)
         {
             if (formFile == null) return null;
-            
+
+            var fileName = await SaveFileIntoLocalStorage(formFile);
+            displayFileName = displayFileName ?? fileName;
+            var memberFile = new MemberFile
+                {FileName = fileName, DisplayFileName = displayFileName, MemberId = memberId};
+            await _memberRepository.CreateMemberAttachment(memberFile);
+            return memberFile;
+        }
+
+        private async Task<string> SaveFileIntoLocalStorage(IFormFile file)
+        {
             var rootPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Files");
             var fileName = Guid.NewGuid().ToString();
             var filePath = Path.Combine(rootPath, fileName);
-            await formFile.CopyToAsync(new FileStream(filePath, FileMode.Create));
-
-
-            if (!File.Exists(filePath)) return null;
-            var memberFile = new MemberFile {Path = fileName};
-
-            await _memberRepository.SaveFile(id, memberFile);
-            return memberFile;
-
+            await file.CopyToAsync(new FileStream(filePath, FileMode.Create));
+            if (!File.Exists(filePath)) throw new Exception("Cannot Save The File");
+            return fileName;
         }
 
         public async Task<Member> GetMemberInfo(int id)

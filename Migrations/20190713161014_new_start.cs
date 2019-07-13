@@ -4,10 +4,25 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace together_aspcore.Migrations
 {
-    public partial class newmigrations : Migration
+    public partial class new_start : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Files",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    FileName = table.Column<string>(nullable: true),
+                    DisplayFileName = table.Column<string>(nullable: true),
+                    MemberId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Files", x => x.Id);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Members",
                 columns: table => new
@@ -43,31 +58,6 @@ namespace together_aspcore.Migrations
                 {
                     table.PrimaryKey("PK_MembersCredentials", x => x.MemberId);
                 });
-
-            migrationBuilder.CreateTable(
-                name: "Files",
-                columns: table => new
-                {
-                    Code = table.Column<int>(nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
-                    Path = table.Column<string>(nullable: true),
-                    MemberId = table.Column<int>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Files", x => x.Code);
-                    table.ForeignKey(
-                        name: "FK_Files_Members_MemberId",
-                        column: x => x.MemberId,
-                        principalTable: "Members",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Files_MemberId",
-                table: "Files",
-                column: "MemberId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -76,10 +66,10 @@ namespace together_aspcore.Migrations
                 name: "Files");
 
             migrationBuilder.DropTable(
-                name: "MembersCredentials");
+                name: "Members");
 
             migrationBuilder.DropTable(
-                name: "Members");
+                name: "MembersCredentials");
         }
     }
 }

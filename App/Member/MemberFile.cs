@@ -7,10 +7,10 @@ namespace together_aspcore.App.Member
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Code { get; set; }
-        public string Path { get; set; }
-        public Member Member { get; set; }
+        public int Id { get; set; }
 
-
+        public string FileName { get; set; }
+        public string DisplayFileName { get; set; }
+        public int MemberId { get; set; }
     }
 }

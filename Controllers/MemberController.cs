@@ -60,12 +60,10 @@ namespace together_aspcore.Controllers
             return Ok(newCredential);
         }
 
-        [HttpPut]
-        public async Task<ActionResult<MemberFile>> SetFile(int id, IFormFile formFile)
+        [HttpPost("{id}/upload-attachment")]
+        public async Task<ActionResult<MemberFile>> UploadAttachment(int id, [FromForm] MemberFile fileInfo , IFormFile file)
         {
-            // check the input id Member to prevent spoofing(check input id with logined id)
-
-            MemberFile memberFile = await _memberService.SaveFile(id, formFile);
+            var memberFile = await _memberService.StoreMemberAttachment(id, fileInfo.DisplayFileName , file);
             return Ok(memberFile);
         }
 

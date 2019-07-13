@@ -52,27 +52,11 @@ namespace together_aspcore.App.Member
             return newCredential.Entity;
         }
 
-        public async Task<MemberCredentials> EditCredential(MemberCredentials memberCredentials)
+        public async Task<MemberFile> CreateMemberAttachment(MemberFile memberFile)
         {
-            MemberCredentials editedMemberCredentials = _dbContext.MembersCredentials.Find(memberCredentials);
-            editedMemberCredentials.Email = memberCredentials.Email;
-            editedMemberCredentials.Password = memberCredentials.Password;
-            _dbContext.SaveChanges();
-            return editedMemberCredentials;
-        }
-
-        public async Task<MemberFile> SaveFile(int id, MemberFile memberFile)
-        {
-            Member member = _dbContext.Members.Find(id);
-            if (memberFile != null && member != null)
-            {
-                memberFile.Member = member;
-                _dbContext.Files.Add(memberFile);
-                await _dbContext.SaveChangesAsync();
-                return memberFile;
-            }
-
-            return null;
+            _dbContext.Files.Add(memberFile);
+            await _dbContext.SaveChangesAsync();
+            return memberFile;
         }
 
         public async Task<Member> GetMemberInfo(int id)

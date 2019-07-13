@@ -10,8 +10,7 @@ namespace together_aspcore.App.Member
         Task<List<Member>> GetAll();
         Task<Member> Edit(Member member);
         Task<MemberCredentials> SaveCredentials(MemberCredentials memberCredentials);
-        Task<MemberCredentials> EditCredential(MemberCredentials memberCredentials);
-        Task<MemberFile> SaveFile(int id, MemberFile memberFile);
+        Task<MemberFile> CreateMemberAttachment(MemberFile memberFile);
         Task<Member> GetMemberInfo(int id);
         Task<Member> Archived(int id, bool archived);
         Task<Member> Disabled(int id, bool disabled);

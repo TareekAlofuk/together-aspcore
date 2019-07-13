@@ -10,8 +10,8 @@ using together_aspcore.Shared;
 namespace together_aspcore.Migrations
 {
     [DbContext(typeof(TogetherDbContext))]
-    [Migration("20190713151712_new migrations")]
-    partial class newmigrations
+    [Migration("20190713161014_new_start")]
+    partial class new_start
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -67,25 +67,18 @@ namespace together_aspcore.Migrations
 
             modelBuilder.Entity("together_aspcore.App.Member.MemberFile", b =>
                 {
-                    b.Property<int>("Code")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("MemberId");
+                    b.Property<string>("DisplayFileName");
 
-                    b.Property<string>("Path");
+                    b.Property<string>("FileName");
 
-                    b.HasKey("Code");
+                    b.Property<int>("MemberId");
 
-                    b.HasIndex("MemberId");
+                    b.HasKey("Id");
 
                     b.ToTable("Files");
-                });
-
-            modelBuilder.Entity("together_aspcore.App.Member.MemberFile", b =>
-                {
-                    b.HasOne("together_aspcore.App.Member.Member", "Member")
-                        .WithMany()
-                        .HasForeignKey("MemberId");
                 });
 #pragma warning restore 612, 618
         }
