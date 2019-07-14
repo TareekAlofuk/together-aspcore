@@ -42,12 +42,6 @@ namespace together_aspcore.App.Member
             return await _memberRepository.SaveCredentials(memberCredentials);
         }
 
-//
-//        public async Task<MemberCredentials> EditCredentialAsync(MemberCredentials memberCredentials)
-//        {
-//            memberCredentials.Password = BcryptHash.Bcrypt(memberCredentials.Password);
-//            return await _memberRepository.EditCredential(memberCredentials);
-//        }
 
         public async Task<MemberFile> StoreMemberAttachment(int memberId, string displayFileName, IFormFile formFile)
         {
@@ -102,6 +96,23 @@ namespace together_aspcore.App.Member
             }
 
             return await _memberRepository.FindMembersByName(query);
+        }
+
+        public async Task<List<MemberFile>> GetMemberAttachments(int memberId)
+        {
+            return await _memberRepository.GetMemberAttachments(memberId);
+        }
+
+        public async Task<bool> DeleteAttachedFile(int fileId)
+        {
+            var memberFile = await _memberRepository.GetMemberFile(fileId);
+            var rootPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Files");
+            var filePath = Path.Combine(rootPath, memberFile.FileName);
+            if (File.Exists(filePath))
+            {
+                File.Delete(filePath);
+            }
+            return await _memberRepository.DeleteAttachedMemberFile(fileId);
         }
     }
 }

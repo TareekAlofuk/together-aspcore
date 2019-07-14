@@ -18,5 +18,9 @@ namespace together_aspcore.App.Member
 
 
         Task<List<Member>> FindMembers(string query);
+
+
+        Task<List<MemberFile>> GetMemberAttachments(int memberId);
+        Task<bool> DeleteAttachedFile(int fileId);
     }
 }

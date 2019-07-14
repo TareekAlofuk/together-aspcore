@@ -19,5 +19,10 @@ namespace together_aspcore.App.Member
 
         Task<List<Member>> FindMembersById(int id);
         Task<List<Member>> FindMembersByName(string name);
+
+
+        Task<List<MemberFile>> GetMemberAttachments(int memberId);
+        Task<MemberFile> GetMemberFile(int id);
+        Task<bool> DeleteAttachedMemberFile(int id);
     }
 }

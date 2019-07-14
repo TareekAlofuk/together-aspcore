@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using together_aspcore.Shared;
 
 namespace together_aspcore.App.Member
@@ -102,6 +103,24 @@ namespace together_aspcore.App.Member
             return await _dbContext.Members
                 .Where(x => EF.Functions.Like(x.Name, name))
                 .ToListAsync();
+        }
+
+        public async Task<List<MemberFile>> GetMemberAttachments(int memberId)
+        {
+            return await _dbContext.Files.Where(x => x.MemberId == memberId).ToListAsync();
+        }
+
+        public async Task<MemberFile> GetMemberFile(int id)
+        {
+            return await _dbContext.Files.FindAsync(id);
+        }
+
+        public async Task<bool> DeleteAttachedMemberFile(int id)
+        {
+            var file = _dbContext.Files.Find(id);
+            _dbContext.Files.Remove(file);
+            await _dbContext.SaveChangesAsync();
+            return true;
         }
     }
 }

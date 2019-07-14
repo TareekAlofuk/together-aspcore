@@ -119,9 +119,22 @@ namespace together_aspcore.Controllers
 
 
         [HttpGet("search")]
-        public async Task<ActionResult<List<Member>>> SearchEmployees([FromQuery]string query)
+        public async Task<ActionResult<List<Member>>> SearchEmployees([FromQuery] string query)
         {
             return await _memberService.FindMembers(query);
+        }
+
+        [HttpGet("{id:int}/attachments")]
+        public async Task<ActionResult<List<MemberFile>>> GetMemberAttachments(int id)
+        {
+            return await _memberService.GetMemberAttachments(id);
+        }
+
+        [HttpDelete("{id:int}/attachments/{fileId:int}")]
+        public async Task<ActionResult<SuccessfulStatusResponse>> DeleteAttachedFile(int fileId)
+        {
+            var success = await _memberService.DeleteAttachedFile(fileId);
+            return Ok(new SuccessfulStatusResponse {Success = success});
         }
     }
 }
