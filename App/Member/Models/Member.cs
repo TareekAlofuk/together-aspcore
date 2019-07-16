@@ -9,6 +9,7 @@ namespace together_aspcore.App.Member
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { set; get; }
+
         public string Name { set; get; }
         public string Phone { set; get; }
         public string Phone2 { set; get; }
@@ -19,5 +20,9 @@ namespace together_aspcore.App.Member
         public bool Archived { set; get; }
         public string PassportImage { set; get; }
         public string FaceImage { set; get; }
+
+
+        public MembershipType Type { get; set; }
+        public DateTime? ExpirationDate { get; set; }
     }
 }

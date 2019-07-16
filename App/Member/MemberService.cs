@@ -112,7 +112,20 @@ namespace together_aspcore.App.Member
             {
                 File.Delete(filePath);
             }
+
             return await _memberRepository.DeleteAttachedMemberFile(fileId);
+        }
+
+        public void RenewMembership(int memberId, DateTime until)
+        {
+            //TODO 
+            throw new NotImplementedException();
+        }
+
+        public void UpgradeMembership(int memberId, MembershipType newMembershipType, DateTime? until)
+        {
+            //TODO
+            throw new NotImplementedException();
         }
     }
 }

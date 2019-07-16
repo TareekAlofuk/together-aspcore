@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -22,5 +23,9 @@ namespace together_aspcore.App.Member
 
         Task<List<MemberFile>> GetMemberAttachments(int memberId);
         Task<bool> DeleteAttachedFile(int fileId);
+
+
+        void RenewMembership(int memberId, DateTime until);
+        void UpgradeMembership(int memberId, MembershipType newMembershipType, DateTime? until);
     }
 }
