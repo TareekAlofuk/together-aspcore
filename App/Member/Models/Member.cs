@@ -14,7 +14,7 @@ namespace together_aspcore.App.Member.Models
         //<REQUIRED> ==========================================
 
         [Required]
-        public string Title;
+        public string Title { set; get; }
 
         [Required]
         public string Name { set; get; }
@@ -23,10 +23,10 @@ namespace together_aspcore.App.Member.Models
         public string Phone { set; get; }
 
         [Required]
-        public DateTime PassportExpirationDate;
+        public DateTime PassportExpirationDate { set; get; }
 
         [Required]
-        public string PassportNo;
+        public string PassportNo { get; set; }
 
         [Required]
         public MembershipType Type { get; set; }
@@ -44,7 +44,7 @@ namespace together_aspcore.App.Member.Models
         public string Address { set; get; }
         public DateTime? BirthDate { set; get; }
 
-        public string JobTitle;
+        public string JobTitle { set; get; }
 
 
         public string PassportImage { set; get; }
