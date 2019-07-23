@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -17,21 +18,27 @@ namespace together_aspcore.App.Member
             _dbContext = dbContext;
         }
 
-        public async Task<Member> Create(Member member)
+        public async Task<Models.Member> Create(Models.Member member)
         {
-            EntityEntry<Member> newMember = await _dbContext.Members.AddAsync(member);
+            var memberWithSameName = await _dbContext.Members.Where(x => x.Name == member.Name).FirstOrDefaultAsync();
+            if (memberWithSameName != null)
+            {
+                throw new DuplicateNameException($"{member.Name} is already exists");
+            }
+
+            var newMember = await _dbContext.Members.AddAsync(member);
             await _dbContext.SaveChangesAsync();
             return newMember.Entity;
         }
 
-        public async Task<List<Member>> GetAll()
+        public async Task<List<Models.Member>> GetAll()
         {
             return await _dbContext.Members.Where(x => !x.Archived).ToListAsync();
         }
 
-        public async Task<Member> Edit(Member member)
+        public async Task<Models.Member> Edit(Models.Member member)
         {
-            EntityEntry<Member> editedMember = _dbContext.Members.Update(member);
+            EntityEntry<Models.Member> editedMember = _dbContext.Members.Update(member);
             await _dbContext.SaveChangesAsync();
             return editedMember.Entity;
         }
@@ -60,7 +67,7 @@ namespace together_aspcore.App.Member
             return memberFile;
         }
 
-        public async Task<Member> GetMemberInfo(int id)
+        public async Task<Models.Member> GetMemberInfo(int id)
         {
             var member = await _dbContext.Members.FindAsync(id);
             return member;
@@ -87,17 +94,17 @@ namespace together_aspcore.App.Member
             return true;
         }
 
-        public async Task<List<Member>> GetRecentlyAdded(int limit)
+        public async Task<List<Models.Member>> GetRecentlyAdded(int limit)
         {
             return await _dbContext.Members.OrderByDescending(x => x.Id).Take(limit).ToListAsync();
         }
 
-        public async Task<List<Member>> FindMembersById(int id)
+        public async Task<List<Models.Member>> FindMembersById(int id)
         {
             return await _dbContext.Members.Where(x => x.Id == id).ToListAsync();
         }
 
-        public async Task<List<Member>> FindMembersByName(string name)
+        public async Task<List<Models.Member>> FindMembersByName(string name)
         {
             name = "%" + name + "%";
             return await _dbContext.Members

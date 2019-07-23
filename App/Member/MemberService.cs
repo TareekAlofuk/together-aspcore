@@ -21,17 +21,17 @@ namespace together_aspcore.App.Member
             _hostingEnvironment = hostingEnvironment;
         }
 
-        public async Task<Member> CreateNewMember(Member member)
+        public async Task<Models.Member> CreateNewMember(Models.Member member)
         {
             return await _memberRepository.Create(member);
         }
 
-        public async Task<List<Member>> GetAllMembers()
+        public async Task<List<Models.Member>> GetAllMembers()
         {
             return await _memberRepository.GetAll();
         }
 
-        public async Task<Member> EditExistingMember(Member member)
+        public async Task<Models.Member> EditExistingMember(Models.Member member)
         {
             return await _memberRepository.Edit(member);
         }
@@ -66,7 +66,7 @@ namespace together_aspcore.App.Member
             return fileName;
         }
 
-        public async Task<Member> GetMemberInfo(int id)
+        public async Task<Models.Member> GetMemberInfo(int id)
         {
             return await _memberRepository.GetMemberInfo(id);
         }
@@ -82,12 +82,12 @@ namespace together_aspcore.App.Member
         }
 
 
-        public async Task<List<Member>> GetRecentlyAdded(int limit)
+        public async Task<List<Models.Member>> GetRecentlyAdded(int limit)
         {
             return await _memberRepository.GetRecentlyAdded(limit);
         }
 
-        public async Task<List<Member>> FindMembers(string query)
+        public async Task<List<Models.Member>> FindMembers(string query)
         {
             var isNumber = query.All(char.IsNumber);
             if (isNumber)

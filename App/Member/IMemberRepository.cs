@@ -6,19 +6,19 @@ namespace together_aspcore.App.Member
 {
     public interface IMemberRepository
     {
-        Task<Member> Create(Member member);
-        Task<List<Member>> GetAll();
-        Task<Member> Edit(Member member);
+        Task<Models.Member> Create(Models.Member member);
+        Task<List<Models.Member>> GetAll();
+        Task<Models.Member> Edit(Models.Member member);
         Task<MemberCredentials> SaveCredentials(MemberCredentials memberCredentials);
         Task<MemberFile> CreateMemberAttachment(MemberFile memberFile);
-        Task<Member> GetMemberInfo(int id);
+        Task<Models.Member> GetMemberInfo(int id);
         Task<bool> ChangeArchiveStatus(int memberId, bool archive);
         Task<bool> ChangeDisableStatus(int memberId, bool disable);
-        Task<List<Member>> GetRecentlyAdded(int limit);
+        Task<List<Models.Member>> GetRecentlyAdded(int limit);
 
 
-        Task<List<Member>> FindMembersById(int id);
-        Task<List<Member>> FindMembersByName(string name);
+        Task<List<Models.Member>> FindMembersById(int id);
+        Task<List<Models.Member>> FindMembersByName(string name);
 
 
         Task<List<MemberFile>> GetMemberAttachments(int memberId);

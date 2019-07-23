@@ -10,10 +10,10 @@ namespace together_aspcore.Test
 {
     public static class TestHelper
     {
-        public static TogetherDbContext GetInMemoryDbContext(String dbName = "db")
+        public static TogetherDbContext GetInMemoryDbContext(string dbName = "db")
         {
             var options = new DbContextOptionsBuilder<TogetherDbContext>()
-                .UseInMemoryDatabase(databaseName: dbName)
+                .UseInMemoryDatabase(dbName)
                 .EnableSensitiveDataLogging()
                 .Options;
             var context = new TogetherDbContext(options);

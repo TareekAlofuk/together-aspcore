@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace together_aspcore.App.Member
+namespace together_aspcore.App.Member.Models
 {
     public class Member
     {
@@ -10,19 +10,47 @@ namespace together_aspcore.App.Member
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { set; get; }
 
+
+        //<REQUIRED> ==========================================
+
+        [Required]
+        public string Title;
+
+        [Required]
         public string Name { set; get; }
+
+        [Required]
         public string Phone { set; get; }
-        public string Phone2 { set; get; }
+
+        [Required]
+        public DateTime PassportExpirationDate;
+
+        [Required]
+        public string PassportNo;
+
+        [Required]
+        public MembershipType Type { get; set; }
+
+        [Required]
+        public DateTime ExpirationDate { get; set; }
+        //</REQUIRED> ==========================================
+
+
+        public string SecondaryPhone { set; get; }
+
+        [EmailAddress]
         public string Email { set; get; }
+
         public string Address { set; get; }
         public DateTime? BirthDate { set; get; }
-        public bool Disabled { set; get; }
-        public bool Archived { set; get; }
+
+        public string JobTitle;
+
+
         public string PassportImage { set; get; }
         public string FaceImage { set; get; }
 
-
-        public MembershipType Type { get; set; }
-        public DateTime? ExpirationDate { get; set; }
+        public bool Disabled { set; get; }
+        public bool Archived { set; get; }
     }
 }

@@ -1,8 +1,12 @@
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using together_aspcore.App.Member;
+using together_aspcore.App.Member.Models;
 using together_aspcore.Shared;
 using together_aspcore.Shared.Response;
 
@@ -29,8 +33,19 @@ namespace together_aspcore.Controllers
         [HttpPost]
         public async Task<ActionResult<Member>> CreateMember([FromForm] Member member)
         {
-            Member newMember = await _memberService.CreateNewMember(member);
-            return Ok(newMember);
+            try
+            {
+                var newMember = await _memberService.CreateNewMember(member);
+                return Ok(newMember);
+            }
+            catch (DuplicateNameException)
+            {
+                return BadRequest(new BadRequestResponse {ErrorCode = MemberErrorCode.NAME_ALREADY_EXISTS});
+            }
+            catch (Exception)
+            {
+                return BadRequest();
+            }
         }
 
 
@@ -54,7 +69,7 @@ namespace together_aspcore.Controllers
         {
             if (memberCredentials.MemberId != id)
             {
-                return BadRequest(BadRequestResponse.Create(MemberErrorMessage.DATA_IS_NOT_VALID));
+                return BadRequest(BadRequestResponse.Create(MemberErrorCode.DATA_IS_NOT_VALID));
             }
 
             var newCredential = await _memberService.SaveCredentials(memberCredentials);

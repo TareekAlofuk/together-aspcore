@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using together_aspcore.App.Member;
+using together_aspcore.App.Member.Models;
 
 namespace together_aspcore.Shared
 {
