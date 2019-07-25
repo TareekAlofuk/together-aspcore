@@ -24,5 +24,11 @@ namespace together_aspcore.App.Member
         Task<List<MemberFile>> GetMemberAttachments(int memberId);
         Task<MemberFile> GetMemberFile(int id);
         Task<bool> DeleteAttachedMemberFile(int id);
+        Task<List<Models.Member>> GetMembersWithExpiredMembership();
+        Task<List<Models.Member>> GetMembersWithNearlyExpiredMembership();
+        Task<List<Models.Member>> GetMembersWithPassportWillExpire();
+        Task<List<Models.Member>> GetMembersWithBirthDate();
+        Task<List<Models.Member>> GetArchivedMembers();
+        Task<List<Models.Member>> GetMembersWithDisabledMembership();
     }
 }

@@ -27,5 +27,11 @@ namespace together_aspcore.App.Member
 
         void RenewMembership(int memberId, DateTime until);
         void UpgradeMembership(int memberId, MembershipType newMembershipType, DateTime? until);
+        Task<List<Models.Member>> GetMembersWithExpiredMembership();
+        Task<List<Models.Member>> GetMembersWithNearlyExpiredMembership();
+        Task<List<Models.Member>> GetMembersWithPassportWillExpire();
+        Task<List<Models.Member>> GetMembersWithBirthDate();
+        Task<List<Models.Member>> GetMembersWithDisabledMembership();
+        Task<List<Models.Member>> GetArchivedMembers();
     }
 }

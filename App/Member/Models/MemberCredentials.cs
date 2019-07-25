@@ -9,7 +9,7 @@ namespace together_aspcore.App.Member
 {
     public class MemberCredentials
     {
-        public string Email { get; set; }
+        public string Username { get; set; }
         public string Password { get; set; }
 
         [Key, ForeignKey("MemberFK")] public int MemberId { get; set; }

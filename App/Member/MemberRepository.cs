@@ -1,3 +1,4 @@
+using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
@@ -48,7 +49,7 @@ namespace together_aspcore.App.Member
             var credentials = _dbContext.MembersCredentials.Find(memberCredentials.MemberId);
             if (credentials != null)
             {
-                credentials.Email = memberCredentials.Email;
+                credentials.Username = memberCredentials.Username;
                 credentials.Password = memberCredentials.Password;
                 var newCredentials = _dbContext.MembersCredentials.Update(credentials);
                 await _dbContext.SaveChangesAsync();
@@ -106,9 +107,9 @@ namespace together_aspcore.App.Member
 
         public async Task<List<Models.Member>> FindMembersByName(string name)
         {
-            name = "%" + name + "%";
+//            name = name ;
             return await _dbContext.Members
-                .Where(x => EF.Functions.Like(x.Name, name))
+                .Where(x => x.Name.Contains(name))
                 .ToListAsync();
         }
 
@@ -128,6 +129,48 @@ namespace together_aspcore.App.Member
             _dbContext.Files.Remove(file);
             await _dbContext.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<List<Models.Member>> GetMembersWithExpiredMembership()
+        {
+            var date = DateTime.Now;
+            return await _dbContext.Members
+                .Where(x => x.ExpirationDate <= date)
+                .ToListAsync();
+        }
+
+        public async Task<List<Models.Member>> GetMembersWithNearlyExpiredMembership()
+        {
+            var date = DateTime.Now.AddDays(30);
+            return await _dbContext.Members
+                .Where(x => x.ExpirationDate <= date)
+                .ToListAsync();
+        }
+
+        public async Task<List<Models.Member>> GetMembersWithPassportWillExpire()
+        {
+            var date = DateTime.Now.AddMonths(6);
+            return await _dbContext.Members
+                .Where(x => x.PassportExpirationDate <= date)
+                .ToListAsync();
+        }
+
+        public async Task<List<Models.Member>> GetMembersWithBirthDate()
+        {
+            var date = DateTime.Now.Date;
+            return await _dbContext.Members
+                .Where(x => x.BirthDate == date)
+                .ToListAsync();
+        }
+
+        public async Task<List<Models.Member>> GetArchivedMembers()
+        {
+            return await _dbContext.Members.Where(x => x.Archived).ToListAsync();
+        }
+
+        public async Task<List<Models.Member>> GetMembersWithDisabledMembership()
+        {
+            return await _dbContext.Members.Where(x => x.Disabled).ToListAsync();
         }
     }
 }

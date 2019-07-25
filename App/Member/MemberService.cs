@@ -127,5 +127,35 @@ namespace together_aspcore.App.Member
             //TODO
             throw new NotImplementedException();
         }
+
+        public async Task<List<Models.Member>> GetMembersWithExpiredMembership()
+        {
+            return await _memberRepository.GetMembersWithExpiredMembership();
+        }
+
+        public async Task<List<Models.Member>> GetMembersWithNearlyExpiredMembership()
+        {
+            return await _memberRepository.GetMembersWithNearlyExpiredMembership();
+        }
+
+        public async Task<List<Models.Member>> GetMembersWithPassportWillExpire()
+        {
+            return await _memberRepository.GetMembersWithPassportWillExpire();
+        }
+
+        public async Task<List<Models.Member>> GetMembersWithBirthDate()
+        {
+            return await _memberRepository.GetMembersWithBirthDate();
+        }
+
+        public async Task<List<Models.Member>> GetMembersWithDisabledMembership()
+        {
+            return await _memberRepository.GetMembersWithDisabledMembership();
+        }
+
+        public async Task<List<Models.Member>> GetArchivedMembers()
+        {
+            return await _memberRepository.GetArchivedMembers();
+        }
     }
 }

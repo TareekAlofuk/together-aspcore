@@ -23,6 +23,7 @@ namespace together_aspcore.App.Member.Models
         public string Phone { set; get; }
 
         [Required]
+        [Column(TypeName = "Date")]
         public DateTime PassportExpirationDate { set; get; }
 
         [Required]
@@ -32,6 +33,7 @@ namespace together_aspcore.App.Member.Models
         public MembershipType Type { get; set; }
 
         [Required]
+        [Column(TypeName = "Date")]
         public DateTime ExpirationDate { get; set; }
         //</REQUIRED> ==========================================
 
@@ -42,6 +44,8 @@ namespace together_aspcore.App.Member.Models
         public string Email { set; get; }
 
         public string Address { set; get; }
+
+        [Column(TypeName = "Date")]
         public DateTime? BirthDate { set; get; }
 
         public string JobTitle { set; get; }

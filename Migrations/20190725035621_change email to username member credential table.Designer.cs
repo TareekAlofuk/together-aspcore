@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using together_aspcore.Shared;
@@ -9,9 +10,10 @@ using together_aspcore.Shared;
 namespace together_aspcore.Migrations
 {
     [DbContext(typeof(TogetherDbContext))]
-    partial class TogetherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190725035621_change email to username member credential table")]
+    partial class changeemailtousernamemembercredentialtable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -58,15 +60,13 @@ namespace together_aspcore.Migrations
 
                     b.Property<bool>("Archived");
 
-                    b.Property<DateTime?>("BirthDate")
-                        .HasColumnType("Date");
+                    b.Property<DateTime?>("BirthDate");
 
                     b.Property<bool>("Disabled");
 
                     b.Property<string>("Email");
 
-                    b.Property<DateTime>("ExpirationDate")
-                        .HasColumnType("Date");
+                    b.Property<DateTime>("ExpirationDate");
 
                     b.Property<string>("FaceImage");
 
@@ -75,8 +75,7 @@ namespace together_aspcore.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<DateTime>("PassportExpirationDate")
-                        .HasColumnType("Date");
+                    b.Property<DateTime>("PassportExpirationDate");
 
                     b.Property<string>("PassportImage");
 

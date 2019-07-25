@@ -55,6 +55,14 @@ namespace together_aspcore.Controllers
             return Ok();
         }
 
+
+        [HttpPost("upload-faceimage")]
+        public ActionResult UploadFaceImage()
+        {
+            return Ok();
+        }
+
+
         [HttpPut("{id}")]
         public async Task<ActionResult<Member>> EditExistingMember(int id, [FromForm] Member member)
         {
@@ -150,6 +158,50 @@ namespace together_aspcore.Controllers
         {
             var success = await _memberService.DeleteAttachedFile(fileId);
             return Ok(new SuccessfulStatusResponse {Success = success});
+        }
+
+
+        [HttpGet("expired")]
+        public async Task<ActionResult<List<Member>>> GetExpiredMembership()
+        {
+            var members = await _memberService.GetMembersWithExpiredMembership();
+            return Ok(members);
+        }
+
+        [HttpGet("will-expire")]
+        public async Task<ActionResult<List<Member>>> GetExpiredMembershipWillExpire()
+        {
+            var members = await _memberService.GetMembersWithNearlyExpiredMembership();
+            return Ok(members);
+        }
+
+        [HttpGet("passport-will-expire")]
+        public async Task<ActionResult<List<Member>>> GetPassportWillExpire()
+        {
+            var members = await _memberService.GetMembersWithPassportWillExpire();
+            return Ok(members);
+        }
+
+
+        [HttpGet("on-birth-date")]
+        public async Task<ActionResult<List<Member>>> GetMembersWithBirthDate()
+        {
+            var members = await _memberService.GetMembersWithBirthDate();
+            return Ok(members);
+        }
+
+        [HttpGet("disabled")]
+        public async Task<ActionResult<List<Member>>> GetMembersWithDisabledMembership()
+        {
+            var members = await _memberService.GetMembersWithDisabledMembership();
+            return Ok(members);
+        }
+
+        [HttpGet("archived")]
+        public async Task<ActionResult<List<Member>>> GetArchivedMembers()
+        {
+            var members = await _memberService.GetArchivedMembers();
+            return Ok(members);
         }
     }
 }
