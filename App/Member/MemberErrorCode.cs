@@ -4,6 +4,7 @@ namespace together_aspcore.App.Member
     {
         DATA_IS_NOT_VALID = 101,
         CANNOT_CHANGE_ID = 102,
-        NAME_ALREADY_EXISTS = 103
+        NAME_ALREADY_EXISTS = 103,
+        MEMBER_NOT_FOUND = 104
     }
 }

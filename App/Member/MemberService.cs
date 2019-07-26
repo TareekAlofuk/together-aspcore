@@ -116,16 +116,9 @@ namespace together_aspcore.App.Member
             return await _memberRepository.DeleteAttachedMemberFile(fileId);
         }
 
-        public void RenewMembership(int memberId, DateTime until)
+        public async Task<Models.Member> UpgradeMembership(int memberId, MembershipType newMembershipType, DateTime until)
         {
-            //TODO 
-            throw new NotImplementedException();
-        }
-
-        public void UpgradeMembership(int memberId, MembershipType newMembershipType, DateTime? until)
-        {
-            //TODO
-            throw new NotImplementedException();
+            return await _memberRepository.UpgradeMembership(memberId, until, newMembershipType);
         }
 
         public async Task<List<Models.Member>> GetMembersWithExpiredMembership()

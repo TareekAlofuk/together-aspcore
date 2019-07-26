@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -30,5 +31,6 @@ namespace together_aspcore.App.Member
         Task<List<Models.Member>> GetMembersWithBirthDate();
         Task<List<Models.Member>> GetArchivedMembers();
         Task<List<Models.Member>> GetMembersWithDisabledMembership();
+        Task<Models.Member> UpgradeMembership(int memberId, DateTime newExpirationDate, MembershipType membershipType);
     }
 }

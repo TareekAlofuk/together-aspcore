@@ -4,8 +4,8 @@ using System.Data;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using together_aspcore.App.Member;
+using together_aspcore.App.Member.Exceptions;
 using together_aspcore.App.Member.Models;
 using together_aspcore.Shared;
 using together_aspcore.Shared.Response;
@@ -26,10 +26,11 @@ namespace together_aspcore.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Member>>> AllMembers()
         {
-            List<Member> members = await _memberService.GetAllMembers();
+            var members = await _memberService.GetAllMembers();
             return Ok(members);
         }
 
+        
         [HttpPost]
         public async Task<ActionResult<Member>> CreateMember([FromForm] Member member)
         {
@@ -203,5 +204,27 @@ namespace together_aspcore.Controllers
             var members = await _memberService.GetArchivedMembers();
             return Ok(members);
         }
+
+        [HttpPost("{memberId:int}/upgrade")]
+        public async Task<ActionResult<Member>> UpgradeMembership(int memberId,
+            [FromForm] UpgradeMembershipRequestModel upgradeModel)
+        {
+            try
+            {
+                var member = await _memberService.UpgradeMembership(memberId, upgradeModel.MembershipType,
+                    upgradeModel.Until);
+                return Ok(member);
+            }
+            catch (MemberNotFoundException)
+            {
+                return BadRequest(new BadRequestResponse {ErrorCode = MemberErrorCode.MEMBER_NOT_FOUND});
+            }
+        }
     }
 }
+
+
+//job title => options
+//home page show must do
+//SEND SMS , Email
+//ORDER RESULTS

@@ -1,11 +1,10 @@
 using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using together_aspcore.App.Member.Exceptions;
 using together_aspcore.Shared;
 
 namespace together_aspcore.App.Member
@@ -27,6 +26,8 @@ namespace together_aspcore.App.Member
                 throw new DuplicateNameException($"{member.Name} is already exists");
             }
 
+            member.JoinDate = DateTime.Now;
+
             var newMember = await _dbContext.Members.AddAsync(member);
             await _dbContext.SaveChangesAsync();
             return newMember.Entity;
@@ -39,7 +40,7 @@ namespace together_aspcore.App.Member
 
         public async Task<Models.Member> Edit(Models.Member member)
         {
-            EntityEntry<Models.Member> editedMember = _dbContext.Members.Update(member);
+            var editedMember = _dbContext.Members.Update(member);
             await _dbContext.SaveChangesAsync();
             return editedMember.Entity;
         }
@@ -97,7 +98,9 @@ namespace together_aspcore.App.Member
 
         public async Task<List<Models.Member>> GetRecentlyAdded(int limit)
         {
-            return await _dbContext.Members.OrderByDescending(x => x.Id).Take(limit).ToListAsync();
+            return await _dbContext.Members
+                .OrderByDescending(x => x.Id)
+                .Take(limit).ToListAsync();
         }
 
         public async Task<List<Models.Member>> FindMembersById(int id)
@@ -107,9 +110,9 @@ namespace together_aspcore.App.Member
 
         public async Task<List<Models.Member>> FindMembersByName(string name)
         {
-//            name = name ;
+            name = "%" + name + "%";
             return await _dbContext.Members
-                .Where(x => x.Name.Contains(name))
+                .Where(x => EF.Functions.ILike(x.Name, name))
                 .ToListAsync();
         }
 
@@ -171,6 +174,21 @@ namespace together_aspcore.App.Member
         public async Task<List<Models.Member>> GetMembersWithDisabledMembership()
         {
             return await _dbContext.Members.Where(x => x.Disabled).ToListAsync();
+        }
+
+        public async Task<Models.Member> UpgradeMembership(int memberId, DateTime newExpirationDate,
+            MembershipType membershipType)
+        {
+            var member = await _dbContext.Members.FindAsync(memberId);
+            if (member == null)
+            {
+                throw new MemberNotFoundException();
+            }
+
+            member.ExpirationDate = newExpirationDate;
+            member.Type = membershipType;
+
+            return await Edit(member);
         }
     }
 }

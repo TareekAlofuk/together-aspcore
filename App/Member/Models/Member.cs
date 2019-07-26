@@ -1,6 +1,8 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Newtonsoft.Json;
+using together_aspcore.Shared.JsonConverter;
 
 namespace together_aspcore.App.Member.Models
 {
@@ -24,6 +26,7 @@ namespace together_aspcore.App.Member.Models
 
         [Required]
         [Column(TypeName = "Date")]
+        [JsonConverter(typeof(OnlyDate))]
         public DateTime PassportExpirationDate { set; get; }
 
         [Required]
@@ -34,7 +37,19 @@ namespace together_aspcore.App.Member.Models
 
         [Required]
         [Column(TypeName = "Date")]
+        [JsonConverter(typeof(OnlyDate))]
         public DateTime ExpirationDate { get; set; }
+
+        [Required]
+        [Column(TypeName = "Date")]
+        [JsonConverter(typeof(OnlyDate))]
+        public DateTime JoinDate { get; set; }
+
+
+        [Required]
+        [Column(TypeName = "Date")]
+        [JsonConverter(typeof(OnlyDate))]
+        public DateTime BirthDate { set; get; }
         //</REQUIRED> ==========================================
 
 
@@ -44,9 +59,6 @@ namespace together_aspcore.App.Member.Models
         public string Email { set; get; }
 
         public string Address { set; get; }
-
-        [Column(TypeName = "Date")]
-        public DateTime? BirthDate { set; get; }
 
         public string JobTitle { set; get; }
 

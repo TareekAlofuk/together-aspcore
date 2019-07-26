@@ -25,8 +25,7 @@ namespace together_aspcore.App.Member
         Task<bool> DeleteAttachedFile(int fileId);
 
 
-        void RenewMembership(int memberId, DateTime until);
-        void UpgradeMembership(int memberId, MembershipType newMembershipType, DateTime? until);
+        Task<Models.Member> UpgradeMembership(int memberId, MembershipType newMembershipType, DateTime until);
         Task<List<Models.Member>> GetMembersWithExpiredMembership();
         Task<List<Models.Member>> GetMembersWithNearlyExpiredMembership();
         Task<List<Models.Member>> GetMembersWithPassportWillExpire();
