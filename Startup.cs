@@ -63,7 +63,9 @@ namespace together_aspcore
             app.UseStaticFiles(new StaticFileOptions
             {
                 FileProvider = new PhysicalFileProvider(Path.Combine(Directory.GetCurrentDirectory(), "Files")),
-                RequestPath = "/storage"
+                RequestPath = "/storage",
+                ServeUnknownFileTypes = true,
+                DefaultContentType = "text/plain"
             });
 
             app.UseHttpsRedirection();

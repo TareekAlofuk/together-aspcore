@@ -59,7 +59,8 @@ namespace together_aspcore.App.Member
         {
             //TODO : fix hard codded storage folder name
             var rootPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Files");
-            var fileName = Guid.NewGuid().ToString();
+            var extension = Path.GetExtension(file.FileName);
+            var fileName = Guid.NewGuid() + extension;
             var filePath = Path.Combine(rootPath, fileName);
             await file.CopyToAsync(new FileStream(filePath, FileMode.Create));
             if (!File.Exists(filePath)) throw new Exception("Cannot Save The File");

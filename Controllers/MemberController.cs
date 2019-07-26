@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -101,12 +102,29 @@ namespace together_aspcore.Controllers
             return Ok(newCredential);
         }
 
-        [HttpPost("{id}/upload-attachment")]
-        public async Task<ActionResult<MemberFile>> UploadAttachment(int id, [FromForm] MemberFile fileInfo,
+
+        [HttpGet("{memberId}")]
+        public ActionResult GetAttachments(int memberId)
+        {
+            var attachments = _memberService.GetMemberAttachments(memberId);
+            return Ok();
+        }
+
+        [HttpPost("{id}/attachment")]
+        public async Task<ActionResult<MemberFile>> UploadAttachment(int id,
             IFormFile file)
         {
-            var memberFile = await _memberService.StoreMemberAttachment(id, fileInfo.DisplayFileName, file);
+            var memberFile = await _memberService.StoreMemberAttachment(id, file.FileName, file);
             return Ok(memberFile);
+        }
+
+        [HttpDelete("attachment/{fileId}")]
+        public async Task<ActionResult> DeleteAttachment(int fileId)
+        {
+            var success = await _memberService.DeleteAttachedFile(fileId);
+            if (success)
+                return Ok();
+            return BadRequest();
         }
 
 
