@@ -33,7 +33,22 @@ namespace together_aspcore.App.Member
 
         public async Task<Models.Member> EditExistingMember(Models.Member member)
         {
-            return await _memberRepository.Edit(member);
+            var existingMember = await _memberRepository.GetMemberInfo(member.Id);
+
+            existingMember.Name = member.Name;
+            existingMember.Title = member.Title;
+            existingMember.Phone = member.Phone;
+            existingMember.SecondaryPhone = member.SecondaryPhone;
+            existingMember.Email = member.Email;
+            existingMember.Type = member.Type;
+            existingMember.ExpirationDate = member.ExpirationDate;
+            existingMember.PassportNo = member.PassportNo;
+            existingMember.PassportExpirationDate = member.PassportExpirationDate;
+            existingMember.BirthDate = member.BirthDate;
+            existingMember.Address = member.Address;
+            existingMember.JobTitle = member.JobTitle;
+
+            return await _memberRepository.Edit(existingMember);
         }
 
         public async Task<MemberCredentials> SaveCredentials(MemberCredentials memberCredentials)

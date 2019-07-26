@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using together_aspcore.App.Member.Exceptions;
+using together_aspcore.App.Member.Models;
 using together_aspcore.Shared;
 
 namespace together_aspcore.App.Member
@@ -26,7 +27,7 @@ namespace together_aspcore.App.Member
                 throw new DuplicateNameException($"{member.Name} is already exists");
             }
 
-            member.JoinDate = DateTime.Now;
+            member.JoinDate = DateTime.Now.Date;
 
             var newMember = await _dbContext.Members.AddAsync(member);
             await _dbContext.SaveChangesAsync();
@@ -190,6 +191,7 @@ namespace together_aspcore.App.Member
 
             return await Edit(member);
         }
+        
     }
 }
 
