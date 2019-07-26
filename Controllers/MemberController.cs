@@ -30,7 +30,7 @@ namespace together_aspcore.Controllers
             return Ok(members);
         }
 
-        
+
         [HttpPost]
         public async Task<ActionResult<Member>> CreateMember([FromForm] Member member)
         {
@@ -50,17 +50,33 @@ namespace together_aspcore.Controllers
         }
 
 
-        [HttpPost("upload-passport")]
-        public ActionResult UploadPassportImage()
+        [HttpPost("{memberId}/upload-passport")]
+        public async Task<ActionResult> UploadPassportImage(int memberId, IFormFile passport)
         {
-            return Ok();
+            try
+            {
+                var filename = await _memberService.UploadPassport(memberId, passport);
+                return Ok(new SuccessfulStatusResponse {Success = true, extra = filename});
+            }
+            catch (Exception)
+            {
+                return BadRequest(new SuccessfulStatusResponse {Success = false});
+            }
         }
 
 
-        [HttpPost("upload-faceimage")]
-        public ActionResult UploadFaceImage()
+        [HttpPost("{memberId}/upload-identity-image")]
+        public async Task<ActionResult> UploadFaceImage(int memberId, IFormFile identityImage)
         {
-            return Ok();
+            try
+            {
+                var filename = await _memberService.UploadIdentityImage(memberId, identityImage);
+                return Ok(new SuccessfulStatusResponse {Success = true, extra = filename});
+            }
+            catch (Exception)
+            {
+                return BadRequest(new SuccessfulStatusResponse {Success = false});
+            }
         }
 
 

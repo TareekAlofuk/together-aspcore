@@ -32,5 +32,7 @@ namespace together_aspcore.App.Member
         Task<List<Models.Member>> GetMembersWithBirthDate();
         Task<List<Models.Member>> GetMembersWithDisabledMembership();
         Task<List<Models.Member>> GetArchivedMembers();
+        Task<string> UploadPassport(int memberId, IFormFile passport);
+        Task<string> UploadIdentityImage(int memberId, IFormFile identityImage);
     }
 }

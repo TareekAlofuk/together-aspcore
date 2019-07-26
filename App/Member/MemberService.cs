@@ -116,7 +116,8 @@ namespace together_aspcore.App.Member
             return await _memberRepository.DeleteAttachedMemberFile(fileId);
         }
 
-        public async Task<Models.Member> UpgradeMembership(int memberId, MembershipType newMembershipType, DateTime until)
+        public async Task<Models.Member> UpgradeMembership(int memberId, MembershipType newMembershipType,
+            DateTime until)
         {
             return await _memberRepository.UpgradeMembership(memberId, until, newMembershipType);
         }
@@ -149,6 +150,24 @@ namespace together_aspcore.App.Member
         public async Task<List<Models.Member>> GetArchivedMembers()
         {
             return await _memberRepository.GetArchivedMembers();
+        }
+
+        public async Task<string> UploadPassport(int memberId, IFormFile passport)
+        {
+            var filename = await SaveFileIntoLocalStorage(passport);
+            var member = await _memberRepository.GetMemberInfo(memberId);
+            member.PassportImage = filename;
+            await _memberRepository.Edit(member);
+            return filename;
+        }
+
+        public async Task<string> UploadIdentityImage(int memberId, IFormFile identityImage)
+        {
+            var filename = await SaveFileIntoLocalStorage(identityImage);
+            var member = await _memberRepository.GetMemberInfo(memberId);
+            member.FaceImage = filename;
+            await _memberRepository.Edit(member);
+            return filename;
         }
     }
 }

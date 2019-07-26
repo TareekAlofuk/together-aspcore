@@ -46,10 +46,10 @@ namespace together_aspcore.App.Member.Models
         public DateTime JoinDate { get; set; }
 
 
-        [Required]
+        
         [Column(TypeName = "Date")]
         [JsonConverter(typeof(OnlyDate))]
-        public DateTime BirthDate { set; get; }
+        public DateTime? BirthDate { set; get; }
         //</REQUIRED> ==========================================
 
 

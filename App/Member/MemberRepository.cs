@@ -192,3 +192,5 @@ namespace together_aspcore.App.Member
         }
     }
 }
+
+//TODO : skip archived members from result
