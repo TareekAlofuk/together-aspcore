@@ -13,12 +13,11 @@ namespace together_aspcore.App.Service.Models
         public int Id { get; set; }
 
         [Required]
-        public Service Service { get; set; }
+        public int ServiceId { get; set; }
 
         [Required]
-        public Member.Models.Member Member { get; set; }
-
-        [Required]
+        public int MemberId { get; set; }
+        
         [Column(TypeName = "Date")]
         [JsonConverter(typeof(OnlyDate))]
         public DateTime? ExpirationDate { get; set; }

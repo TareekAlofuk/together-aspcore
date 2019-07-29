@@ -6,6 +6,7 @@ using together_aspcore.App.Member;
 using together_aspcore.App.Service;
 using together_aspcore.App.Service.Dto;
 using together_aspcore.App.Service.Models;
+using together_aspcore.Shared;
 
 namespace together_aspcore.Controllers
 {
@@ -34,9 +35,16 @@ namespace together_aspcore.Controllers
         public async Task<ActionResult> RegisterService(
             [FromForm] RegisterServiceRequestModel registerServiceRequestModel)
         {
-            var serviceUsage = registerServiceRequestModel.toServiceUsage();
-            await _serviceService.RegisterService(serviceUsage);
-            return Ok();
+            try
+            {
+                var serviceUsage = registerServiceRequestModel.toServiceUsage();
+                await _serviceService.RegisterService(serviceUsage);
+                return Ok();
+            }
+            catch (ServiceException e)
+            {
+                return BadRequest(new BadRequestResponse {ErrorCode = e.ErrorCode});
+            }
         }
     }
 }

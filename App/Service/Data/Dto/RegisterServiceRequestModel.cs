@@ -17,8 +17,8 @@ namespace together_aspcore.App.Service.Dto
         {
             var serviceUsage = new ServiceUsage
             {
-                Service = new Models.Service {Id = ServiceId},
-                Member = new Member.Models.Member {Id = MemberId},
+                ServiceId =  ServiceId,
+                MemberId = MemberId,
                 Price = Price,
                 Commission = Commission,
                 Discount = Discount,

@@ -25,7 +25,7 @@ namespace together_aspcore.App.Service
         {
             return await _context.ServicesRules
                 .Where(x => x.Service.Id == service.Id && x.MembershipType == membershipType)
-                .FirstAsync();
+                .FirstOrDefaultAsync();
         }
 
         public async Task<bool> DoesHaveUnexpiredService(Member.Models.Member member, Models.Service service)
@@ -45,7 +45,7 @@ namespace together_aspcore.App.Service
             return entity.Entity;
         }
 
-        public async Task DecreaseServiceStore(Member.Models.Member member, Models.Service service)
+        public async Task<ServiceStore> DecreaseServiceStore(Member.Models.Member member, Models.Service service)
         {
             var today = DateTime.Now;
 
@@ -53,11 +53,18 @@ namespace together_aspcore.App.Service
                     x => x.Service.Id == service.Id && x.Member.Id == member.Id && x.ExpirationDate < today)
                 .ToListAsync();
 
-            if (!store.Any())
+            var rules = await GetServiceRule(member.Type, service);
+            if (!store.Any() && rules.LimitType == ServiceLimitType.LIMITED)
                 throw new ServiceException(ServiceErrorCode.NOT_ENOUGH_IN_STORE);
 
+            if (!store.Any())
+            {
+                return null;
+            }
+            
             _context.ServicesStore.Remove(store[0]);
             await _context.SaveChangesAsync();
+            return store[0];
         }
 
         public async Task<ServiceUsage> GetServiceUsage(int serviceUsageId)

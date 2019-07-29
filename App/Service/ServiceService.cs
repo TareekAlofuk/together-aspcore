@@ -19,31 +19,40 @@ namespace together_aspcore.App.Service
 
         public async Task<ServiceUsage> RegisterService(ServiceUsage serviceUsage)
         {
-            var member = await _memberRepository.GetMemberInfo(serviceUsage.Member.Id);
-            var service = serviceUsage.Service;
+            var member = await _memberRepository.GetMemberInfo(serviceUsage.MemberId);
+            var service = new Models.Service {Id = serviceUsage.ServiceId};
 
-            if (!await IsAllowToUse(member, service) || !await HaveEnoughInStore(member, service))
+            var serviceRules = await _serviceRepository.GetServiceRule(member.Type, service);
+            if (!await IsAllowToUse(member, service))
+                throw new ServiceException(ServiceErrorCode.NOT_ALLOWED);
+
+            if (serviceRules.LimitType == ServiceLimitType.LIMITED && !await HaveEnoughInStore(member, service))
                 throw new ServiceException(ServiceErrorCode.NOT_ENOUGH_IN_STORE);
 
-            await _serviceRepository.DecreaseServiceStore(member, service);
+
+            var serviceStore = await _serviceRepository.DecreaseServiceStore(member, service);
+            if (serviceStore != null)
+            {
+                serviceUsage.ExpirationDate = serviceUsage.ExpirationDate;
+            }
 
             return await _serviceRepository.SaveServiceUsage(serviceUsage);
         }
 
         public async Task UnregisterService(int serviceUsageId)
         {
-            var serviceUsage = await _serviceRepository.GetServiceUsage(serviceUsageId);
-            var member = serviceUsage.Member;
-            var service = serviceUsage.Service;
-            if (serviceUsage == null)
-                throw new ServiceException(ServiceErrorCode.SERVICE_NOT_FOUND);
-            if (serviceUsage.ExpirationDate == null)
-            {
-                throw new ServiceException(ServiceErrorCode.CANNOT_UNREGISTER_UNLIMITED_SERVICE);
-            }
-
-            await _serviceRepository.DeleteServiceUsage(serviceUsage.Id);
-            await _serviceRepository.IncreaseServiceStore(member, service, serviceUsage.ExpirationDate.Value);
+//            var serviceUsage = await _serviceRepository.GetServiceUsage(serviceUsageId);
+//            var member = serviceUsage.Member;
+//            var service = serviceUsage.Service;
+//            if (serviceUsage == null)
+//                throw new ServiceException(ServiceErrorCode.SERVICE_NOT_FOUND);
+//            if (serviceUsage.ExpirationDate == null)
+//            {
+//                throw new ServiceException(ServiceErrorCode.CANNOT_UNREGISTER_UNLIMITED_SERVICE);
+//            }
+//
+//            await _serviceRepository.DeleteServiceUsage(serviceUsage.Id);
+//            await _serviceRepository.IncreaseServiceStore(member, service, serviceUsage.ExpirationDate.Value);
         }
 
         public async Task<List<ServiceDetail>> GetServiceDetails(MembershipType membershipType)

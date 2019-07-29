@@ -12,7 +12,7 @@ namespace together_aspcore.App.Service
         Task<ServiceRule> GetServiceRule(MembershipType membershipType, Models.Service service);
         Task<bool> DoesHaveUnexpiredService(Member.Models.Member member, Models.Service service);
         Task<ServiceUsage> SaveServiceUsage(ServiceUsage serviceUsage);
-        Task DecreaseServiceStore(Member.Models.Member member, Models.Service service);
+        Task<ServiceStore> DecreaseServiceStore(Member.Models.Member member, Models.Service service);
         Task<ServiceUsage> GetServiceUsage(int serviceUsageId);
         Task IncreaseServiceStore(Member.Models.Member member, Models.Service service , DateTime expirationDate);
         Task DeleteServiceUsage(int serviceUsageId);
