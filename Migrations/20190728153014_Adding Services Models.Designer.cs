@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using together_aspcore.Shared;
@@ -9,9 +10,10 @@ using together_aspcore.Shared;
 namespace together_aspcore.Migrations
 {
     [DbContext(typeof(TogetherDbContext))]
-    partial class TogetherDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190728153014_Adding Services Models")]
+    partial class AddingServicesModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -138,8 +140,6 @@ namespace together_aspcore.Migrations
 
                     b.Property<double?>("Discount");
 
-                    b.Property<int?>("DiscountOptions");
-
                     b.Property<int>("LimitType");
 
                     b.Property<int>("MembershipType");
@@ -181,15 +181,10 @@ namespace together_aspcore.Migrations
 
                     b.Property<double?>("Commission");
 
-                    b.Property<double?>("Count");
-
                     b.Property<double?>("Discount");
 
-                    b.Property<DateTime?>("ExpirationDate")
-                        .IsRequired()
+                    b.Property<DateTime>("ExpirationDate")
                         .HasColumnType("Date");
-
-                    b.Property<double?>("FinalPrice");
 
                     b.Property<int>("MemberId");
 

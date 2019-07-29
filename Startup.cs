@@ -14,6 +14,7 @@ using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using together_aspcore.App.Member;
+using together_aspcore.App.Service;
 using together_aspcore.Shared;
 
 namespace together_aspcore
@@ -35,6 +36,8 @@ namespace together_aspcore
 
             services.AddScoped<IMemberRepository, MemberRepository>();
             services.AddScoped<IMemberService, MemberService>();
+            services.AddScoped<IServiceService, ServiceService>();
+            services.AddScoped<IServiceRepository, ServiceRepository>();
 
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);

@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using together_aspcore.App.Member;
 using together_aspcore.App.Member.Models;
+using together_aspcore.App.Service.Dto;
+using together_aspcore.App.Service.Models;
 
 namespace together_aspcore.Shared
 {
@@ -8,11 +10,21 @@ namespace together_aspcore.Shared
     {
         public virtual DbSet<MemberCredentials> MembersCredentials { get; set; }
         public virtual DbSet<Member> Members { get; set; }
-        
+
         public virtual DbSet<MemberFile> Files { get; set; }
+
+
+        public virtual DbSet<Service> Services { get; set; }
+        public virtual DbSet<ServiceRule> ServicesRules { get; set; }
+        public virtual DbSet<ServiceStore> ServicesStore { get; set; }
+        public virtual DbSet<ServiceUsage> ServicesUsages { get; set; }
+        public virtual DbSet<MembershipServiceDefault> ServiceMembershipDefaults { get; set; }
+
+
+        public DbQuery<ServiceDetail> ServiceDetails { get; set; }
+
         public TogetherDbContext(DbContextOptions options) : base(options)
         {
-
         }
     }
 }
