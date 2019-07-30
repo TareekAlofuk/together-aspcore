@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using together_aspcore.App.Member.Models;
 using together_aspcore.Shared;
 
 namespace together_aspcore.App.Member
@@ -184,6 +185,18 @@ namespace together_aspcore.App.Member
             member.FaceImage = filename;
             await _memberRepository.Edit(member);
             return filename;
+        }
+
+
+        public async Task<List<MemberAutoCompleteModel>> GetSuggestions(string query)
+        {
+            if (!query.All(char.IsDigit)) return await _memberRepository.GetSuggestions(query);
+            var member = await _memberRepository.GetMemberInfo(int.Parse(query));
+            return new List<MemberAutoCompleteModel>
+            {
+                new MemberAutoCompleteModel {Id = member.Id, Name = member.Name}
+            };
+
         }
     }
 }

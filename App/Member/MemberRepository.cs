@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Npgsql;
 using together_aspcore.App.Member.Exceptions;
 using together_aspcore.App.Member.Models;
 using together_aspcore.Shared;
@@ -191,7 +192,15 @@ namespace together_aspcore.App.Member
 
             return await Edit(member);
         }
-        
+
+        public async Task<List<MemberAutoCompleteModel>> GetSuggestions(string query)
+        {
+            var nameParam = new NpgsqlParameter("name", $"%{query.ToLower()}%");
+            var sql = "SELECT \"Id\" , \"Name\" FROM \"Members\" WHERE LOWER(\"Name\") LIKE @name";
+            return await _dbContext.MemberAutoComplete
+                .FromSql(sql, nameParam)
+                .ToListAsync();
+        }
     }
 }
 

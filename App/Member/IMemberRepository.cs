@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using together_aspcore.App.Member.Models;
 
 namespace together_aspcore.App.Member
 {
@@ -32,5 +33,6 @@ namespace together_aspcore.App.Member
         Task<List<Models.Member>> GetArchivedMembers();
         Task<List<Models.Member>> GetMembersWithDisabledMembership();
         Task<Models.Member> UpgradeMembership(int memberId, DateTime newExpirationDate, MembershipType membershipType);
+        Task<List<MemberAutoCompleteModel>> GetSuggestions(string query);
     }
 }

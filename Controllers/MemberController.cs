@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -252,6 +253,19 @@ namespace together_aspcore.Controllers
             {
                 return BadRequest(new BadRequestResponse {ErrorCode = MemberErrorCode.MEMBER_NOT_FOUND});
             }
+        }
+
+
+        [HttpGet("auto-complete-suggestions")]
+        public async Task<ActionResult<List<MemberAutoCompleteModel>>> GetSuggestions([FromQuery] string query = "")
+        {
+            Thread.Sleep(1500);
+            if (query.Trim().Equals(""))
+            {
+                return Ok(new List<MemberAutoCompleteModel>());
+            }
+
+            return await _memberService.GetSuggestions(query);
         }
     }
 }
