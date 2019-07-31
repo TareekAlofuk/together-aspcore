@@ -196,7 +196,7 @@ namespace together_aspcore.App.Member
         public async Task<List<MemberAutoCompleteModel>> GetSuggestions(string query)
         {
             var nameParam = new NpgsqlParameter("name", $"%{query.ToLower()}%");
-            var sql = "SELECT \"Id\" , \"Name\" FROM \"Members\" WHERE LOWER(\"Name\") LIKE @name";
+            var sql = "SELECT \"Id\" , \"Name\" , \"Type\" FROM \"Members\" WHERE LOWER(\"Name\") LIKE @name";
             return await _dbContext.MemberAutoComplete
                 .FromSql(sql, nameParam)
                 .ToListAsync();

@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using together_aspcore.App.Member;
@@ -12,5 +13,8 @@ namespace together_aspcore.App.Service
         Task UnregisterService(int serviceUsageId);
 
         Task<List<ServiceDetail>> GetServiceDetails(MembershipType membershipType);
+        
+        Task<List<MemberServiceQureyModel>> GetServiceUsageForMember(int memberId, DateTime? from = null,
+            DateTime? to = null);
     }
 }

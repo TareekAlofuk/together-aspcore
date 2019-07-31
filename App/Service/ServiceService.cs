@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using together_aspcore.App.Member;
@@ -58,6 +59,11 @@ namespace together_aspcore.App.Service
         public async Task<List<ServiceDetail>> GetServiceDetails(MembershipType membershipType)
         {
             return await _serviceRepository.GetServiceDetail(membershipType);
+        }
+
+        public Task<List<MemberServiceQureyModel>> GetServiceUsageForMember(int memberId, DateTime? from = null, DateTime? to = null)
+        {
+            return _serviceRepository.GetServicesUsageForMember(memberId, from, to);
         }
 
         private async Task<bool> HaveEnoughInStore(Member.Models.Member member, Models.Service service)

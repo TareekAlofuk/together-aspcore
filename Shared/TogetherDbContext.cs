@@ -23,6 +23,7 @@ namespace together_aspcore.Shared
 
         public DbQuery<ServiceDetail> ServiceDetails { get; set; }
         public DbQuery<MemberAutoCompleteModel> MemberAutoComplete { get; set; }
+        public DbQuery<MemberServiceQureyModel> ServicesUsageOfMember { get; set; }
 
         public TogetherDbContext(DbContextOptions options) : base(options)
         {

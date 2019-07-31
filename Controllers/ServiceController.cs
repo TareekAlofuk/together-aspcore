@@ -46,5 +46,11 @@ namespace together_aspcore.Controllers
                 return BadRequest(new BadRequestResponse {ErrorCode = e.ErrorCode});
             }
         }
+
+        [HttpGet("usage/{memberId}")]
+        public async Task<ActionResult> GetServicesUsageForMember(int memberId)
+        {
+            return Ok(await _serviceService.GetServiceUsageForMember(memberId));
+        }
     }
 }

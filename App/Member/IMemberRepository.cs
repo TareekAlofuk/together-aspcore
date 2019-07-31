@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using together_aspcore.App.Member.Models;
+using together_aspcore.App.Service.Dto;
 
 namespace together_aspcore.App.Member
 {

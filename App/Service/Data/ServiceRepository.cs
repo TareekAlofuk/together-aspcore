@@ -61,7 +61,7 @@ namespace together_aspcore.App.Service
             {
                 return null;
             }
-            
+
             _context.ServicesStore.Remove(store[0]);
             await _context.SaveChangesAsync();
             return store[0];
@@ -97,6 +97,22 @@ namespace together_aspcore.App.Service
                       "\nWHERE \"ServicesRules\".\"MembershipType\" = @membershipType";
             return await _context.ServiceDetails
                 .FromSql(sql, membershipTypeParam)
+                .ToListAsync();
+        }
+
+        public async Task<List<MemberServiceQureyModel>> GetServicesUsageForMember(int memberId, DateTime? @from,
+            DateTime? to)
+        {
+            var memberIdParam = new NpgsqlParameter("memberId", memberId);
+            // ReSharper disable once RedundantStringInterpolation
+            var sql = $@"SELECT u.* ,
+                            (SELECT ""Name"" FROM ""Members"" WHERE ""Members"".""Id"" = u.""MemberId"") AS ""MemberName"",
+                            (SELECT ""Title"" FROM ""Services"" WHERE ""Services"".""Id"" = u.""ServiceId"") AS ""ServiceName""
+                        FROM ""ServicesUsages"" u
+                        WHERE ""MemberId"" = @memberId;
+                        ";
+            return await _context.ServicesUsageOfMember
+                .FromSql(sql, memberIdParam)
                 .ToListAsync();
         }
     }

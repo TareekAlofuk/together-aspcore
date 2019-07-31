@@ -194,9 +194,8 @@ namespace together_aspcore.App.Member
             var member = await _memberRepository.GetMemberInfo(int.Parse(query));
             return new List<MemberAutoCompleteModel>
             {
-                new MemberAutoCompleteModel {Id = member.Id, Name = member.Name}
+                new MemberAutoCompleteModel {Id = member.Id, Name = member.Name, Type = member.Type}
             };
-
         }
     }
 }

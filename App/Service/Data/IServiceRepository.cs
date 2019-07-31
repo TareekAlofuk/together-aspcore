@@ -17,5 +17,8 @@ namespace together_aspcore.App.Service
         Task IncreaseServiceStore(Member.Models.Member member, Models.Service service , DateTime expirationDate);
         Task DeleteServiceUsage(int serviceUsageId);
         Task<List<ServiceDetail>> GetServiceDetail(MembershipType membershipType);
+        
+        Task<List<MemberServiceQureyModel>> GetServicesUsageForMember(int memberId, DateTime? from, DateTime? to);
+
     }
 }

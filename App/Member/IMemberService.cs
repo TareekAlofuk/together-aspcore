@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using together_aspcore.App.Member.Models;
+using together_aspcore.App.Service.Dto;
 
 namespace together_aspcore.App.Member
 {
@@ -37,5 +38,6 @@ namespace together_aspcore.App.Member
         Task<string> UploadIdentityImage(int memberId, IFormFile identityImage);
 
         Task<List<MemberAutoCompleteModel>> GetSuggestions(string query);
+        
     }
 }
