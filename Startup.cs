@@ -15,6 +15,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using together_aspcore.App.Member;
 using together_aspcore.App.Service;
+using together_aspcore.Controllers;
 using together_aspcore.Shared;
 
 namespace together_aspcore
@@ -38,6 +39,7 @@ namespace together_aspcore
             services.AddScoped<IMemberService, MemberService>();
             services.AddScoped<IServiceService, ServiceService>();
             services.AddScoped<IServiceRepository, ServiceRepository>();
+            services.AddScoped<IWalletRepository, WalletRepository>();
 
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
