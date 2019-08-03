@@ -42,9 +42,28 @@ namespace together_aspcore.Controllers
             await _context.SaveChangesAsync();
         }
 
-        public Task Withdraw()
+        public async Task Withdraw(int memberId , WalletAction walletAction)
         {
-            return null;
+            var wallet = await _context.Wallets.Where(x => x.MemberId == memberId).FirstOrDefaultAsync();
+            if (wallet == null)
+            {
+                throw new WalletException(WalletErrorCode.NOT_WALLET_FOUND);
+            }
+
+            if (wallet.Amount - walletAction.Amount < 0)
+            {
+                throw new WalletException(WalletErrorCode.PROVIDED_AMOUNT_IS_MORE_THAN_WALLET_AMOUNT);
+            }
+
+            wallet.Amount -= walletAction.Amount;
+            walletAction.Time = DateTime.Now;
+            walletAction.WalletId = wallet.Id;
+            walletAction.NewAmount = wallet.Amount;
+            walletAction.WalletActionType = WalletActionType.DEPOSIT;
+
+            _context.Wallets.Update(wallet);
+            await _context.WalletActions.AddAsync(walletAction);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<WalletAction>> Actions(int memberId)

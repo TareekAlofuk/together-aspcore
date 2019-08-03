@@ -7,7 +7,7 @@ namespace together_aspcore.Controllers
     public interface IWalletRepository
     {
         Task Deposit(int memberId , WalletAction walletAction);
-        Task Withdraw();
+        Task Withdraw(int memberId , WalletAction walletAction);
         Task<List<WalletAction>> Actions(int memberId);
     }
 }
