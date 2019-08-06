@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
+using Microsoft.IdentityModel.Tokens;
 using together_aspcore.App.Member;
 using together_aspcore.App.Service;
 using together_aspcore.Controllers;
@@ -40,6 +38,38 @@ namespace together_aspcore
             services.AddScoped<IServiceService, ServiceService>();
             services.AddScoped<IServiceRepository, ServiceRepository>();
             services.AddScoped<IWalletRepository, WalletRepository>();
+
+
+            var signingKey =
+                new SymmetricSecurityKey(
+                    Encoding.ASCII.GetBytes(Configuration["Jwt:Key"]));
+
+
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = signingKey,
+                ValidateIssuer = true,
+                ValidIssuer = Configuration["Jwt:Issuer"],
+                ValidateAudience = true,
+                ValidAudience = Configuration["Jwt:Audience"],
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero
+            };
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => { options.TokenValidationParameters = tokenValidationParameters; });
+
+            services.AddAuthorization(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder(JwtBearerDefaults.AuthenticationScheme)
+                    .RequireAuthenticatedUser().Build();
+
+                options.AddPolicy("Admin", policy => { policy.RequireClaim("UserType", "Admin"); });
+                options.AddPolicy("Control", policy => { policy.RequireClaim("UserType", "Control"); });
+                options.AddPolicy("Accountant", policy => { policy.RequireClaim("UserType", "Accountant"); });
+            });
+
 
             services.AddCors();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -72,6 +102,7 @@ namespace together_aspcore
                 ServeUnknownFileTypes = true,
                 DefaultContentType = "text/plain"
             });
+
 
             app.UseHttpsRedirection();
             app.UseMvc();

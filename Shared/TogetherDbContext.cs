@@ -3,6 +3,7 @@ using together_aspcore.App.Member;
 using together_aspcore.App.Member.Models;
 using together_aspcore.App.Service.Dto;
 using together_aspcore.App.Service.Models;
+using together_aspcore.App.User;
 using together_aspcore.App.Wallet;
 
 namespace together_aspcore.Shared
@@ -14,7 +15,7 @@ namespace together_aspcore.Shared
 
         public virtual DbSet<MemberFile> Files { get; set; }
         public DbSet<Wallet> Wallets { get; set; }
-
+        public DbSet<User> Users { get; set; }
 
         public virtual DbSet<Service> Services { get; set; }
         public virtual DbSet<ServiceRule> ServicesRules { get; set; }
