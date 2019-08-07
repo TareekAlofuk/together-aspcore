@@ -170,7 +170,6 @@ namespace together_aspcore.Controllers
         [HttpGet("recent")]
         public async Task<ActionResult<List<Member>>> GetRecentlyAdded()
         {
-            // todo : remove hard coded limit
             const int limit = 50;
             return await _memberService.GetRecentlyAdded(limit);
         }
@@ -269,9 +268,3 @@ namespace together_aspcore.Controllers
         }
     }
 }
-
-
-//job title => options
-//home page show must do
-//SEND SMS , Email
-//ORDER RESULTS

@@ -73,7 +73,6 @@ namespace together_aspcore.App.Member
 
         private async Task<string> SaveFileIntoLocalStorage(IFormFile file)
         {
-            //TODO : fix hard codded storage folder name
             var rootPath = Path.Combine(_hostingEnvironment.ContentRootPath, "Files");
             var extension = Path.GetExtension(file.FileName);
             var fileName = Guid.NewGuid() + extension;

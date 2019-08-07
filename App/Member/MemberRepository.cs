@@ -101,6 +101,7 @@ namespace together_aspcore.App.Member
         public async Task<List<Models.Member>> GetRecentlyAdded(int limit)
         {
             return await _dbContext.Members
+                .Where(x => !x.Archived)
                 .OrderByDescending(x => x.Id)
                 .Take(limit).ToListAsync();
         }
@@ -114,6 +115,7 @@ namespace together_aspcore.App.Member
         {
             name = "%" + name + "%";
             return await _dbContext.Members
+                .Where(x => !x.Archived)
                 .Where(x => EF.Functions.ILike(x.Name, name))
                 .ToListAsync();
         }
@@ -140,6 +142,7 @@ namespace together_aspcore.App.Member
         {
             var date = DateTime.Now;
             return await _dbContext.Members
+                .Where(x => !x.Archived)
                 .Where(x => x.ExpirationDate <= date)
                 .ToListAsync();
         }
@@ -148,6 +151,7 @@ namespace together_aspcore.App.Member
         {
             var date = DateTime.Now.AddDays(30);
             return await _dbContext.Members
+                .Where(x => !x.Archived)
                 .Where(x => x.ExpirationDate <= date)
                 .ToListAsync();
         }
@@ -156,6 +160,7 @@ namespace together_aspcore.App.Member
         {
             var date = DateTime.Now.AddMonths(6);
             return await _dbContext.Members
+                .Where(x => !x.Archived)
                 .Where(x => x.PassportExpirationDate <= date)
                 .ToListAsync();
         }
@@ -164,6 +169,7 @@ namespace together_aspcore.App.Member
         {
             var date = DateTime.Now.Date;
             return await _dbContext.Members
+                .Where(x => !x.Archived)
                 .Where(x => x.BirthDate == date)
                 .ToListAsync();
         }
@@ -196,12 +202,11 @@ namespace together_aspcore.App.Member
         public async Task<List<MemberAutoCompleteModel>> GetSuggestions(string query)
         {
             var nameParam = new NpgsqlParameter("name", $"%{query.ToLower()}%");
-            var sql = "SELECT \"Id\" , \"Name\" , \"Type\" FROM \"Members\" WHERE LOWER(\"Name\") LIKE @name";
+            var sql =
+                "SELECT \"Id\" , \"Name\" , \"Type\" FROM \"Members\" WHERE \"Archived\" = FALSE AND LOWER(\"Name\") LIKE @name";
             return await _dbContext.MemberAutoComplete
                 .FromSql(sql, nameParam)
                 .ToListAsync();
         }
     }
 }
-
-//TODO : skip archived members from result
