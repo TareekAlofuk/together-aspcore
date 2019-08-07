@@ -87,6 +87,7 @@ namespace together_aspcore.Controllers
             return Ok(new
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
+                user.UserType,
                 ExpirationDate = token.ValidTo
             });
         }
@@ -107,6 +108,7 @@ namespace together_aspcore.Controllers
             return Ok(new
             {
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
+                UserType = User.Claims.FirstOrDefault(c => c.Type == "UserType")?.Value,
                 ExpirationDate = token.ValidTo
             });
         }
