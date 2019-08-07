@@ -203,7 +203,7 @@ namespace together_aspcore.App.Member
         {
             var nameParam = new NpgsqlParameter("name", $"%{query.ToLower()}%");
             var sql =
-                "SELECT \"Id\" , \"Name\" , \"Type\" FROM \"Members\" WHERE \"Archived\" = FALSE AND LOWER(\"Name\") LIKE @name";
+                "SELECT \"Id\" , \"Name\" , \"Type\" FROM \"Members\" WHERE \"Archived\" = FALSE AND LOWER(\"Name\") LIKE @name LIMIT 7";
             return await _dbContext.MemberAutoComplete
                 .FromSql(sql, nameParam)
                 .ToListAsync();
